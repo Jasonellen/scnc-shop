@@ -1,0 +1,49 @@
+
+.TradingRecord{
+	ul>li{
+		height: 120px;
+		padding:20px;
+		background: #fff;
+		border-bottom: 1px solid #ddd;
+    	box-sizing: border-box;
+		.pull-left{
+			width: 80%;
+			h3{
+				@include font(30px, #222);
+				font-weight: bold;
+				line-height: 50px;
+				.red{
+					color: #e4393c;
+					padding-left: 8px;
+					font-weight: normal;
+				}
+				.blue{
+					color: #33a9fc;
+					padding-left: 8px;
+					font-weight: normal;
+				}
+			}
+			p{
+				@include font(24px, #999);
+			}
+		}
+		span{
+			@include font(30px);
+			line-height: 80px;
+			font-weight: bold;
+		}
+	}
+	.blank{
+		text-align: center;
+		img{
+			display: inline-block;
+			margin:257px 0 65px;
+			width: 118px;
+			height: 156px;
+		}
+		p{
+			@include font(32px, #999);
+			line-height: 1;
+		}
+	}
+}

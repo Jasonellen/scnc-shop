@@ -1,0 +1,21 @@
+
+.OldAccount{
+  overflow: hidden;
+	.head{
+    padding: 40px;
+    text-align: center;
+    @include font(28px);
+    line-height: 1.5;
+	}
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:60px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+	
+}

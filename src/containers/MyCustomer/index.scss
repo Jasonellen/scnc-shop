@@ -1,0 +1,48 @@
+
+.MyCustomer{
+	width:100%;
+	height:100%;
+	.am-badge{
+		float:right;
+	}
+	.warp{
+		margin-top: 20px;
+		height: calc(100vh - 90px);
+		overflow: hidden;
+	}
+	.list{
+		padding-bottom: 20px;
+		li{
+			background: #fff;
+			.head{
+				padding:20px;
+				border-bottom: 1px solid #ddd;
+				@include font(30px);
+				line-height: 60px;
+				img{
+					width: 60px;
+					height: 60px;
+					border-radius: 50%;
+					margin-right: 10px;
+					border:1px solid #ddd;
+				}
+				small{
+					color: #588fff;
+				}
+			}
+		}
+	}
+	.blank{
+		text-align: center;
+		img{
+			display: inline-block;
+			margin:257px 0 65px;
+			width: 118px;
+			height: 156px;
+		}
+		p{
+			@include font(32px, #999);
+			line-height: 1;
+		}
+	}
+}

@@ -1,0 +1,41 @@
+
+
+.OrderPayResult{
+	.back{
+		display: inline-block;
+    margin-left: 50%;
+    margin-top: 100px;
+		width: 80%;
+		height: 70px;
+		line-height: 70px;
+		border-radius: 10px;
+		text-align: center;
+		border:1px solid #588fff;
+		@include font(30px, #588fff);
+		background: transparent;
+		transform: translateX(-50%);
+	}
+	.next{
+		margin-top: 20px;
+	}
+	.result{
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding-top: 100px;
+		margin: auto;
+		svg{
+			width: 100%;
+			height: 100%;
+		}
+		.am-result:after{
+			border: none;
+		}
+	}
+	.am-result .am-result-message{
+		margin-top: 50px;
+	}
+}

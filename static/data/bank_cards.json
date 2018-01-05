@@ -1,0 +1,22 @@
+[
+    {
+        "id":1,
+        "user_id":1,
+        "bank_type":1,
+        "bank_type_name":"中国银行",
+        "name":"卡人",
+        "card_no":"111222",
+        "created_at":"2017-07-07T00:00:00.000Z",
+        "updated_at":"2017-07-07T00:00:00.000Z"
+    },
+    {
+        "id":2,
+        "user_id":1,
+        "bank_type":2,
+        "bank_type_name":"中国超级银行",
+        "name":"卡人",
+        "card_no":"2221122",
+        "created_at":"2017-07-07T00:00:00.000Z",
+        "updated_at":"2017-07-07T00:00:00.000Z"
+    }
+]

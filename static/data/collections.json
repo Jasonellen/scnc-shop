@@ -1,0 +1,58 @@
+[
+        {
+            "id": 5,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+        {
+            "id": 6,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+				{
+            "id": 7,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+        {
+            "id": 8,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+				{
+            "id": 5,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+        {
+            "id": 6,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+				{
+            "id": 7,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        },
+        {
+            "id": 8,
+            "name": "维生素D钙粉",
+            "purchases_count": 0,
+            "price": "1.0",
+            "image_url": "/static/goods.jpg"
+        }
+]

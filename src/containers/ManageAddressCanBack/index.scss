@@ -1,0 +1,80 @@
+
+.manageAddress{
+	height: 100%;
+	.warp{
+		height:calc(100% - 110px);
+		overflow: hidden;
+	}
+	.address{
+		.am-list-item .am-list-line .am-list-content{
+			@include font(30px);
+			color: #999;
+		}
+		.haveAddress{
+			@include font(28px);
+			.pull-right{
+				margin-right: 14px;
+			}
+		}
+		.am-list-item .am-list-line .am-list-brief{
+			@include font(28px);
+	    	white-space: initial;
+		}
+	}
+	.am-flexbox{
+		height: 70px;
+		padding:0 20px;
+		-webkit-justify-content: space-between;justify-content: space-between;
+		background: #fff;
+		// border-top: 1px solid #ddd;
+		@include font(26px);
+		.am-checkbox-wrapper{
+			span.default{
+				color: #588fff;
+			}
+		}
+		.am-checkbox{
+			vertical-align: middle;
+		}
+		.tag{
+			width: 110px;
+			text-align: right;
+			margin-left: 10px;
+			img{
+				margin-right: 10px;
+				width: 28px;
+				position: relative;
+    		top: -2px;
+			}
+		}
+		.am-checkbox.am-checkbox-checked .am-checkbox-inner{
+			border-color: #588fff;
+    	background: #588fff;
+		}
+		.am-checkbox.am-checkbox-checked .am-checkbox-inner:after{
+			border-color: white;
+		}
+	}
+	.addAddress{
+		height: 98px;
+		display:-webkit-flex;display:flex;
+		align-items: center;
+		justify-content: center;
+		display: -webkit-flex;
+		-webkit-align-items: center;
+		-webkit-justify-content: center;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		background: #fff;
+		border-top: 1px solid #ddd;
+		img{
+			width: 27px;
+			height: 27px;
+			margin-right: 10px;
+		}
+		span{
+			@include font(32px);
+		}
+	}
+}

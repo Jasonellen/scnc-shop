@@ -1,0 +1,69 @@
+
+#root .manageAccountHome .am-list-item .am-list-line .am-list-content{
+	@include font(32px);
+}
+#root .changeBind .am-list-item .am-input-label{
+	@include font(32px);
+}
+.manageAccount{
+	.top{margin-top: 10px;}
+	.home_list{
+		.am-list-item{
+			min-height: 100px;
+		}
+		img{
+			width: 60px;
+			height: 60px;
+		}
+		.am-list-thumb{
+			margin:0 40px 0 10px;
+		}
+	}
+	.changeBind{
+		.tel{
+			height: 100px;
+			line-height: 100px;
+			@include font(32px);
+			text-align: center;
+			background: #fff;
+			input{
+				text-align: center;
+			}
+		}
+		.am-list-item.am-input-item{
+			height: 100px;
+		}
+		.sendMsg{
+			background: #588fff;
+			position: absolute;
+			height: 100px;
+			line-height: 100px;
+			padding: 0 30px;
+			right: 0;
+			top: 0;
+			color: white;
+			@include fontSize(32px);
+		}
+	}
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:60px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+	.old{
+		display:block;
+    width: 264px;
+    border: 1px solid #ddd;
+    background: #fff;
+    line-height: 2.5;
+    text-align: center;
+    @include font(28px);
+    border-radius: 10px;
+    margin: 900px auto;
+	}
+}

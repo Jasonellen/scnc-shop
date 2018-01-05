@@ -1,0 +1,25 @@
+
+#root .money .am-input-control input{
+	color: red;
+}
+.WalletPay{
+	svg{
+		position: relative;
+		top: 10px;
+		left: 10px;
+	}
+	.back{
+		display: inline-block;
+    margin-left: 50%;
+    margin-top: 100px;
+		width: 80%;
+		height: 70px;
+		line-height: 70px;
+		border-radius: 10px;
+		text-align: center;
+		border:1px solid #588fff;
+		@include font(30px, #588fff);
+		background: transparent;
+		transform: translateX(-50%);
+	}
+}

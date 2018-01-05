@@ -1,0 +1,50 @@
+
+.ApplyBackLogistics{
+	height: 100%;
+	.btn{
+		color: #fff;
+		margin-top: 100px;
+	}
+	.btn.active{
+		background: #588fff;
+	}
+	.bottom{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+    	box-sizing: border-box;
+		border-top: 1px solid #ddd;
+		height: 100px;
+		line-height: 100px;
+		padding:0 20px;
+		background: #fff;
+		@include font(26px);
+		span{
+			width:130px;
+			height: 56px;
+			border-radius: 10px;
+			text-align: center;
+			line-height: 56px;
+			border:1px solid #ddd;
+			display: inline-block;
+		}
+		.pull-right{
+			// width: 290px;
+			div,a{
+				display: inline-block;
+		    padding: 0 10px;
+				height: 56px;
+				text-align: center;
+				line-height: 56px;
+				border-radius: 10px;
+				color: #999;
+				margin-top: 22px;
+				border: 1px solid #ddd;
+			}
+			.ok{
+				color: #588fff;
+				margin-left: 20px;
+			}
+		}
+	}
+}

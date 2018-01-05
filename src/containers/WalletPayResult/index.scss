@@ -1,0 +1,29 @@
+
+.WalletPayResult{
+	text-align: center;
+	height: 100vh;
+	background: #fff;
+	.pay{
+		img{
+			width: 120px;
+			height: 120px;
+			display: inline-block;
+			margin-top:240px;
+		}
+		p{
+			@include font(30px);
+			width: 70%;
+			margin:30px auto 120px;
+			line-height: 1;
+		}
+		div{
+			width:300px;
+			height: 80px;
+			border-radius: 10px;
+			border: 1px solid #588fff;
+			line-height: 80px;
+			margin:0 auto;
+			@include font(32px,#588fff);
+		}
+	}
+}

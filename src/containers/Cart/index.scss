@@ -1,0 +1,161 @@
+
+.cart {
+  position: relative;
+  height: 100vh;
+  .shop_list{
+      padding-top: 108px;
+      padding-bottom: 200px;
+      .warp{
+          height: calc(100vh - 308px);
+          overflow: hidden;
+          position: relative;
+      }
+  }
+  // 购物车是空的
+  .empty {
+    position: absolute;
+    top:  260px;
+    bottom: 444px;
+    left: 50%;
+    transform: translateX(-50%);
+    .cart-icon {
+      width:  285px;
+      height: 202px;
+      background: url(/static/cart.svg) no-repeat center center;
+      background-size: contain;
+    }
+    img {
+      width:  285px;
+      height: 202px;
+    }
+    .empty-notice {
+      text-align: center;
+      color: #999;
+      @include font(30px);
+    }
+    .go-to-check {
+      width: 260px;
+      height: 80px;
+      line-height: 80px;
+      margin: 60px auto 0;
+      color: #fff;
+      text-align: center;
+      @include fontSize(32px);
+      background: url(/static/gotocheck.png) no-repeat;
+      background-size: cover;
+
+    }
+  }
+  // 购物车列表的顶部操作拦
+  .topbar {
+    display:-webkit-flex;display:flex;
+		display: -webkit-flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    height: 88px;
+    padding:  0 50px;
+    background-color: #fff;
+    -webkit-justify-content: space-between;justify-content: space-between;
+	  -webkit-justify-content: space-between;justify-content: space-between;
+    .checkbox {
+      height: 100%;
+      position: relative;
+      input[type="checkbox"], span.sel {
+        display: block;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 52%;
+        transform: translateY(-50%);
+      }
+      input[type="checkbox"] {
+        opacity: 0;
+        z-index: 1;
+      }
+      input[type="checkbox"]:checked + span.sel {
+        border: 3px solid #71c3fd;
+        &:after {
+          display: block;
+        }
+      }
+      span.sel {
+        border: 3px solid #888;
+        border-radius: 50%;
+        &:after {
+          display: none;
+          position: absolute;
+          border: 3px solid #71c3fd;
+          top: 0.04rem;
+          right: 0.16rem;
+          width: 0.13333rem;
+          height: 0.29333rem;
+          border-style: solid;
+          border-width: 0 0.04rem 0.04rem 0;
+          content: ' ';
+          transform: rotate(45deg);
+        }
+      }
+      .all {
+        width: 2em;
+        position: absolute;
+        left: 62px;
+        top: 52%;
+        transform: translateY(-50%);
+        color: #222;
+        @include font(32px);
+      }
+    }
+    .operation {
+      display:-webkit-flex;display:flex;
+      align-items: center;
+			display: -webkit-flex;
+			-webkit-align-items: center;
+      color: #222;
+      @include font(32px);
+    }
+  }
+
+  // 购物车底栏
+  .bottom-bar {
+    display:-webkit-flex;display:flex;
+    -webkit-justify-content: space-between;justify-content: space-between;
+		display: -webkit-flex;
+		-webkit-justify-content: space-between;justify-content: space-between;
+    height: 98px;
+    background-color: #fff;
+    position: fixed;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+		z-index: 3;
+    .tip, .delete {
+      display:-webkit-flex;display:flex;
+      align-items: center;
+      @include font(30px);
+    }
+    .tip {
+      padding-left: 50px;
+			span{
+				color: #e4393c;
+			}
+    }
+    .delete {
+      width: 200px;
+      justify-content: center;
+      @include font(30px);
+      color: #fff;
+			position: relative;
+			img{
+				position: absolute;
+				left: 0;
+				top: 0;
+				z-index: -1;
+				width: 100%;
+				height: 100%;
+			}
+    }
+  }
+}

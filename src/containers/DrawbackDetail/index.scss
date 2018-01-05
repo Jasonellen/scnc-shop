@@ -1,0 +1,142 @@
+
+.DrawbackDetail{
+	width: 100%;
+	height: 100%;
+	.warp{
+		width: 100%;
+		height: calc(100% - 100px);
+		overflow: hidden;
+		>div{
+			padding-bottom: 100px;
+		}
+	}
+	.top{
+		width: 100%;
+		box-sizing: border-box;
+		padding:40px 0 40px 68px;
+		background: -webkit-linear-gradient(to right,#c7d9ff, #6095ff); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(to right,#c7d9ff, #6095ff); /* Opera 11.1 - 12.0 */
+		background: -moz-linear-gradient(to right,#c7d9ff, #6095ff); /* Firefox 3.6 - 15 */
+		background: linear-gradient(to right,#c7d9ff, #6095ff); /* 标准的语法 */
+		img{
+			width: 80px;
+			height: 80px;
+	    transform: rotateZ(-25deg);
+			margin-right: 20px;
+			position: relative;
+			top: -10px;
+		}
+		span{
+			@include font(30px,#fff);
+			line-height: 80px;
+		}
+		h2{
+			@include font(30px,#fff);
+			text-align: center;
+			line-height: 1;
+			margin-bottom: 20px;
+		}
+		p{
+			@include font(26px,#fff);
+			text-align: center;
+		}
+	}
+	.top.text{
+		padding:40px 0;
+	}
+	.title{
+		height: 90px;
+		line-height: 90px;
+		padding: 0 20px;
+		background: #fff;
+		border-bottom: 1px solid #ddd;
+		@include font(30px);
+		span{
+			@include font(32px,#588fff)
+		}
+	}
+	.body{
+		li{
+			// height: 140px;
+			overflow: hidden;
+			background: #fff;
+			padding: 30px 20px 15px;
+			border-bottom: 1px solid #ddd;
+			img{
+				width: 140px;
+				height: 140px;
+			}
+			.right{
+				width: 510px;
+				padding:0 30px;
+				div{
+					@include font(26px);
+					line-height: 1;
+					margin-top: 20px;
+					margin-bottom: 38px;
+				}
+			}
+		}
+		li.clearfix{
+			line-height: 1.5;
+			padding: 10px 0.26667rem 10px;
+			p{
+				@include font(30px,#999);
+				text-align: left;
+			}
+		}
+	}
+	.back{
+		display: block;
+		margin-left: 50%;
+		margin-top: 180px;
+		transform: translateX(-50%);
+		width: 280px;
+		height: 70px;
+		line-height: 70px;
+		border-radius: 10px;
+		text-align: center;
+		border:1px solid #588fff;
+		@include font(30px, #588fff);
+		background: transparent;
+	}
+	.bottom{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+    	box-sizing: border-box;
+		border-top: 1px solid #ddd;
+		height: 100px;
+		line-height: 100px;
+		padding:0 20px;
+		background: #fff;
+		@include font(26px);
+		span{
+			width:130px;
+			height: 56px;
+			border-radius: 10px;
+			text-align: center;
+			line-height: 56px;
+			border:1px solid #ddd;
+			display: inline-block;
+		}
+		.pull-right{
+			// width: 290px;
+			div,a{
+				display: inline-block;
+		    padding: 0 10px;
+				height: 56px;
+				text-align: center;
+				line-height: 56px;
+				border-radius: 10px;
+				color: #999;
+				margin-top: 22px;
+				border: 1px solid #ddd;
+			}
+			.ok{
+				color: #588fff;
+				margin-left: 20px;
+			}
+		}
+	}
+}

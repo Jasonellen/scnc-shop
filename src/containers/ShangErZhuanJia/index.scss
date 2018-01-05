@@ -1,0 +1,75 @@
+
+.ShangErZhuanJia{
+	.am-tabs-ink-bar{
+		background-color: #588fff;
+	}
+	.am-tabs-bar .am-tabs-tab-active{
+		color: #588fff;
+	}
+	.headimg{
+		width: 100%;
+	}
+	.warp{
+		height: calc(100vh - 420px);
+		background: #fff;
+		overflow: hidden;
+	}
+	.about{
+		padding:0px 20px 30px;
+		overflow: hidden;
+		p, span, font{
+			text-align: left;
+			@include fontSize(26px);
+			word-break: break-word;
+		}
+		img{
+			display: inline-block;
+			max-width: 100%;
+			height: auto !important;
+		}
+	}
+
+	.list{
+		overflow: hidden;
+		padding-bottom: 300px;
+		.item{
+			border-bottom: 1px solid #ddd;
+			padding: 10px;
+			.left{
+				float: left;
+				width: 100px;
+				height: 100px;
+				padding: 0 20px;
+				img{
+					width: 100%;
+					height: 100%;
+					border: none;
+					border-radius: 50%;
+				}
+			}
+			.right{
+				width: calc( 100% - 140px );
+				float: right;
+				p{
+					margin-top: 10px;
+					font-weight: bold;
+					@include fontSize(30px);
+					line-height: 40px;
+					//white-space:nowrap;
+					//overflow:hidden;
+					//text-overflow:ellipsis;
+					i{
+						@include fontSize(24px);
+						color: #999;
+					}
+				}
+				span{
+					display: block;
+					@include fontSize(24px);
+					color: #999;
+					line-height: 40px;
+				}
+			}
+		}
+	}
+}

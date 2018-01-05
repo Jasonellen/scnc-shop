@@ -1,0 +1,62 @@
+
+.MyWallet{
+	.head{
+		overflow: hidden;
+		height:400px;
+		background: url(/static/walletBg.png);
+		background-size: cover;
+		text-align: center;
+		color:#fff;
+		.money{
+			@include font(80px);
+			line-height: 1;
+			margin-top: 108px;
+			color:#fff;
+		}
+		p{
+			padding:30px 0 60px;
+			@include font(26px);
+			color:#fff;
+		}
+		.btn{
+			width: 345px;
+			margin: 0 auto;
+			line-height: 1;
+			a,div{
+				width: 140px;
+				height: 60px;
+				line-height: 60px;
+				border-radius: 30px;
+				border: 1px solid #fff;
+				background: transparent;
+				color: #fff;
+				@include fontSize(28px);
+			}
+			div.weak{
+				color: #95b8fd;
+				border: 1px solid #95b8fd;
+			}
+		}
+	}
+	.back{
+		position: fixed;
+		bottom: 60px;
+		left:50%;
+		margin-left: -140px;
+		width: 280px;
+		height: 70px;
+		line-height: 70px;
+		border-radius: 10px;
+		text-align: center;
+		border:1px solid #588fff;
+		@include font(30px, #588fff);
+		background: transparent;
+	}
+	.am-list-item img{
+		width: 50px;
+		height: 50px;
+	}
+	.am-search-input input[type="search"]{
+    padding-left: 90px;
+	}
+}

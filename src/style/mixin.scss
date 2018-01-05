@@ -1,0 +1,30 @@
+
+// 设置文字的大小和颜色
+@mixin font($font-size,$color:#222) {
+	font-size: $font-size;
+	[data-dpr="1"] & {
+		font-size: $font-size;
+	}
+	[data-dpr="3"] & {
+		font-size: $font-size;
+	}
+	color: $color;
+}
+
+@mixin fontSize($font-size) {
+	font-size: $font-size;
+	[data-dpr="1"] & {
+		font-size: $font-size;
+	}
+	[data-dpr="3"] & {
+		font-size: $font-size;
+	}
+}
+
+// 块级元素内文本溢出的隐藏
+@mixin text-overflow-hide {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

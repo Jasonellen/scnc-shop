@@ -1,0 +1,44 @@
+
+.MyQRCode{
+  height: 100vh;
+  overflow: hidden;
+	background: url(/static/QRCodeBg.png) center center no-repeat;
+	background-size: contain;
+	.am-card{
+		width: 540px;
+		height: 700px;
+		margin: 200px auto 0px;
+		-webkit-box-shadow:0 0 50px lightgrey;
+  	box-shadow:0 0 50px lightgrey;
+	}
+	.am-card-header-content{
+		img{
+			width: 60px;
+			height: 60px;
+			border: 1px solid #588fff;
+			border-radius:10px;
+			margin-right: 22px;
+		}
+	}
+	.am-card-body{
+		div{
+	    width: 390px;
+			height: 390px;
+			margin:22px auto 0;
+			img{
+				width: 100%;
+				height: 100%;
+				padding:16px;
+				border: 1px solid #588fff;
+				border-radius:10px;
+				box-sizing: border-box;
+			}
+			p{
+				margin-top: 30px;
+				@include font(28px);
+				font-weight: bold;
+				text-align: center;
+			}
+		}
+	}
+}

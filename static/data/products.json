@@ -1,0 +1,44 @@
+{
+        "product": {
+            "id": 6,
+            "price": "1.0",
+            "list_data": "['/static/banner.png','/static/banner.png']",
+            "detail_data": "['/static/banner.png','/static/banner.png']",
+            "number": 3,
+            "score": "5.0",
+            "name": "维生素D钙粉(1-4)",
+            "description": "专门为儿童长牙说明，商品说明",
+            "properties": [
+							{
+									"value": "15袋／盒",
+									 "price": 10,
+									 "quantity": 5
+							},
+							{
+									"value": "30袋／盒",
+									 "price": 100,
+									 "quantity": 50
+							}
+            ],
+            "comments": [
+                {
+                    "created_at": "2017-01-01T00:00:00.000Z",
+                    "content": "这是最新的一条评论",
+                    "user_name": "超人"
+                },
+                {
+                    "created_at": "2017-01-01T00:00:00.000Z",
+                    "content": "还有一条评论",
+                    "user_name": ""
+                }
+            ]
+        },
+        "promotion": {
+            "id": 1,
+            "expires_at": "2017-01-01T00:00:00.000Z",
+            "starts_at": "2017-02-01T00:00:00.000Z",
+            "name": "满赠",
+            "detail_name": "买满赠送",
+            "description": "送15袋奶粉"
+        }
+}

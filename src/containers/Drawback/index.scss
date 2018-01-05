@@ -1,0 +1,54 @@
+
+.Drawback{
+	.head{
+		overflow: hidden;
+		background: #fff;
+		padding: 30px 20px;
+		border-bottom: 1px solid #ddd;
+		img{
+			width: 140px;
+			height: 143px;
+			margin-right: 20px;
+			float: left;
+		}
+		span{
+			@include font(30px);
+			float: left;
+	    margin-top: 15px;
+		}
+	}
+	.leixing{
+		line-height: 89px;
+		background: #fff;
+		padding: 0 30px;
+		box-sizing: border-box;
+		@include font(30px);
+		span{
+			float: right;
+			border-radius: 25px;
+			border:1px solid #ddd;
+			@include font(28px, #999);
+			line-height: 1;
+			padding: 10px 35px;
+			margin-top: 19px;
+			font: 28px;
+			margin-left: 30px;
+		}
+		span.active{
+			border-color: #588fff;
+			color: #588fff;
+		}
+	}
+	.much{
+		@include font(28px, #999);
+		line-height: 2;
+		padding-left: 30px;
+	}
+	.btn{
+		color: #fff;
+		margin-top: 100px;
+	}
+	.btn.active{
+		background: #588fff;
+	}
+}

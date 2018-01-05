@@ -1,0 +1,85 @@
+
+
+.PaySet{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	.top{margin-top: 10px;}
+	.home_list{
+		.am-list-item{
+			min-height: 100px;
+		}
+		img{
+			width: 60px;
+			height: 60px;
+		}
+		.am-list-thumb{
+			margin:0 40px 0 10px;
+		}
+	}
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:100px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+
+	//修改密码
+	.PasswordSet{
+		.am-list-item .am-input-control{
+			margin-left: -40px;
+		}
+		text-align: center;
+		.head{
+			width: 230px;
+			height: 230px;
+			border-radius: 50%;
+			margin: 90px auto 95px;
+			line-height: 230px;
+			background: #fff;
+			img{
+				width: 84px;
+				height: 140px;
+			}
+		}
+		.body{
+			background: #fff;
+			line-height: 90px;
+			@include font(30px);
+			.tel{
+				padding: 0 30px;
+				border-bottom: 1px solid #ddd;
+				.num{
+					margin: 0 34px 0 50px;
+				}
+				.brief{
+					border:1px solid #588fff;
+					border-radius: 10px;
+					padding: 5px 10px;
+					line-height: 1.2;
+					margin-top: 24px;
+					@include font(24px,#588fff);
+				}
+			}
+			.am-list-item.am-input-item{
+				height: 100px;
+			}
+			.sendMsg{
+				background: #588fff;
+				position: absolute;
+				height: 100px;
+				line-height: 100px;
+				padding: 0 30px;
+				right: 0;
+				top: 0;
+				color: white;
+				@include fontSize(32px);
+			}
+		}
+	}
+
+}

@@ -1,0 +1,116 @@
+
+#Mine{
+	.top{
+		height: 303px;
+		background: url('/static/mine_bg.png');
+		background-size: cover;
+		position: relative;
+		.head{
+			box-sizing: content-box;
+			width: 180px;
+			height: 180px;
+			background: rgba(255,255,255,.6);
+			position:absolute;
+			bottom: 20px;
+			left: 50%;
+			margin-left: -100px;
+			padding:10px;
+			border-radius: 50%;
+			.head_pic{
+				width: 180px;
+				height: 180px;
+				border-radius: 50%;
+			}
+			.badge{
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				margin-left: -50px;
+				height: 25px;
+			}
+			p{
+				margin-top: 20px;
+				text-align: center;
+				@include font(24px);
+				width: 300%;
+    			margin-left: -100%;
+			}
+		}
+		.bind{
+			width: 140px;
+			height: 50px;
+			line-height: 50px;
+			border-radius: 25px;
+			background: rgba(0,0,0,.4);
+			color: #fff;
+			text-align: center;
+			@include fontSize(24px);
+			position: absolute;
+			top: 30px;
+			right: 15px;
+		}
+	}
+	.bottom{
+		padding: 40px 0 23px;
+		background: #fff;
+		a{
+			text-align: center;
+			@include font(30px) ;
+			border-right: 1px solid #ddd;
+			width: 250px;
+			margin-right: -1px;
+			i{
+				font-style: normal;
+				color: #ff5000;
+				line-height: 54px;
+			}
+			span{
+				line-height: 1;
+				color: #222;
+			}
+		}
+	}
+	.order-list{
+		.am-list-content{
+			@include font(30px);
+		}
+		.am-list-extra{
+			@include font(26px);
+		}
+	}
+	.am-list-content{
+		color: #222 !important;
+	}
+	.am-list-extra{
+		color: #999 !important;
+	}
+	.choice{
+		background: #fff;
+		padding-top: 10px;
+		div,a{
+			text-align: center;
+			height: 139px;
+			img{
+				display: inline-block;
+				width: 40px;
+				margin: 20px;
+			}
+			p{
+				@include font(26px);
+			}
+		}
+	}
+	.other_list{
+		// height:100px;
+		img{
+			width: 60px;
+			height: 60px;
+		}
+		.am-list-thumb{
+			margin:0 40px 0 10px;
+		}
+		.am-list-content{
+			@include font(30px);
+		}
+	}
+}

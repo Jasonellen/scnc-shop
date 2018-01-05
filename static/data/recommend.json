@@ -1,0 +1,20 @@
+{
+    "recommends": {
+        "products": [
+            {
+                "id": 5,
+                "name": "name",
+                "purchases_count": 0,
+                "price": "1.0",
+                "image_url": "/static/goods.jpg"
+            },
+            {
+                "id": 6,
+                "name": "name",
+                "purchases_count": 0,
+                "price": "1.0",
+                "image_url": "/static/goods.jpg"
+            }
+        ]
+    }
+}

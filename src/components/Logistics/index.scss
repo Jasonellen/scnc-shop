@@ -1,0 +1,65 @@
+
+
+.Logistics {
+	width: 100%;
+	height: 100%;
+	.blank{
+		height:100vh;
+	}
+	.warp{
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	.top{
+		padding:30px;
+		background: #fff;
+		img{
+			width: 140px;
+			height: 140px;
+			margin-right: 40px;
+		}
+		div{
+			@include font(32px);
+			font-weight: bold;
+			margin-bottom: 24px;
+		}
+		p{
+			@include font(30px,#999);
+		}
+	}
+	.body{
+		li{
+			background: #fff;
+			padding-left: 56px;
+			border-bottom:1px solid #ddd;
+			div{
+				border-left: 1px solid #ddd;
+				padding:26px 30px;
+				position: relative;
+				@include font(30px, #999);
+				p{
+					margin:10px 0;
+				}
+			}
+			div:before{
+				display: block;
+				content: '';
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+				position: absolute;
+				left: -10px;
+				top: 50%;
+				margin-top: -10px;
+				background: #999;
+			}
+			div.active{
+				color: #588fff;
+			}
+			div.active:before{
+				background: #588fff;
+			}
+		}
+	}
+}

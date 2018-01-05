@@ -1,0 +1,22 @@
+{
+  "cart": {
+    "cart_items": [
+      {
+        "product_id": "1",
+        "product_name": "奶粉",
+        "product_image": "/static/banner.png",
+        "price": 3,
+        "quantity": 2
+      },
+			{
+        "product_id": "2",
+        "product_name": "母婴粉",
+        "product_image": "/static/banner.png",
+        "price": 3,
+        "quantity": 2
+      }
+    ],
+    "total_item_quantity": 2,
+    "total": 6
+  }
+}

@@ -1,0 +1,51 @@
+
+.ZhuanLan {
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	ul{
+		li{
+			background: #fff;
+			padding:25px 20px;
+			border-bottom:1px solid #ddd;
+			img{
+				width:130px;
+				height: 130px;
+				margin-right: 16px;
+			}
+			.pull-right{
+				width: 560px;
+				h2{
+					@include font(30px);
+					line-height: 1.2;
+					margin-bottom: 10px;
+					overflow:hidden;
+					text-overflow:ellipsis;
+					display:-webkit-box;
+					-webkit-box-orient:vertical;
+					-webkit-line-clamp:1;
+				}
+				.time{
+					@include font(24px,#999);
+					line-height: 1;
+					margin-bottom: 5px;
+				}
+				.content{
+					height: 59px;
+					overflow:hidden;
+					*{
+						line-height: 29px;
+						height: 58px;
+						@include font(24px,#999);
+						overflow:hidden;
+						text-overflow:ellipsis;
+						display:-webkit-box;
+						-webkit-box-orient:vertical;
+						-webkit-line-clamp:2;
+					}
+				} 
+			}
+		}
+	}
+
+}

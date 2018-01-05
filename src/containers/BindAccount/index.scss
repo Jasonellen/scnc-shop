@@ -1,0 +1,58 @@
+
+.BindAccount{
+	width: 100%;
+	height: 100%;
+  overflow: hidden;
+	.head{
+		width: 490px;
+		margin: 120px auto 100px;
+		text-align: center;
+		.link{
+			width: 90px;
+			margin-top: 70px;
+		}
+		.circle{
+			width: 120px;
+			height: 120px;
+			border-radius: 50%;
+			padding:30px;
+			background: #fff;
+			img{
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+	.am-list-item .am-input-extra{
+		overflow: visible;
+		.sendMsg{
+			padding: 10px 15px;
+			border: 1px solid #588fff;
+			color: #588fff;
+			border-radius: 10px;
+			@include font(24px,#588fff);
+		}
+	}
+
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:60px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+	.old{
+		display:block;
+    width: 264px;
+    border: 1px solid #ddd;
+    background: #fff;
+    line-height: 2.5;
+    text-align: center;
+    @include font(28px);
+    border-radius: 10px;
+    margin: 350px auto;
+	}
+}

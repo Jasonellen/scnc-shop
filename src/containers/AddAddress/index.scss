@@ -1,0 +1,22 @@
+
+.AddAddress{
+	// .am-list-item{
+	// 	border-top: 1px solid #ddd;
+	// }
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+    background: #999;
+		margin:100px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+
+	.am-list-item .am-list-line .am-list-extra{
+		width: 470px;
+		flex-basis:auto;
+	}
+}

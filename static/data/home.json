@@ -1,0 +1,66 @@
+{
+	"banners": [{
+			"banner": "/static/banner.png"
+		},
+		{
+			"banner": "/static/banner.png"
+		}
+	],
+	"navigations": [{
+			"id": 1,
+			"name": "走进上儿",
+			"url": "ZouJinShangEr",
+			"image_url": "/static/zoujinshanger.png"
+		},
+		{
+			"id": 2,
+			"name": "孕妇专栏",
+			"url": "/ZhuanLan",
+			"image_url": "/static/muying.png"
+		},
+		{
+			"id": 3,
+			"name": "专家育儿",
+			"url": "/ZhuanLan",
+			"image_url": "/static/zhuanjiayuer.png"
+		},
+		{
+			"id": 4,
+			"name": "积分商城",
+			"url": "--",
+			"image_url": "/static/jifenshangcheng.png"
+		},
+		{
+			"id": 5,
+			"name": "优惠活动",
+			"url": "--",
+			"image_url": "/static/youhui.png"
+		},
+		{
+			"id": 6,
+			"name": "专家咨询",
+			"url": "--",
+			"image_url": "/static/zhuanjiazixun.png"
+		}
+	],
+
+	"products": [{
+			"id": 1,
+			"name": "维生素D钙粉(1-4)岁",
+			"purchases_count": 255,
+			"list_img": "/static/goods.jpg"
+		},
+		{
+			"id": 1,
+			"name": "维生素D钙粉(1-4)岁",
+			"purchases_count": 255,
+			"list_img": "/static/goods.jpg"
+		},
+		{
+			"id": 1,
+			"name": "维生素D钙粉(1-4)岁",
+			"purchases_count": 255,
+			"list_img": "/static/goods.jpg"
+		}
+	]
+}

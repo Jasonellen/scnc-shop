@@ -1,0 +1,106 @@
+
+
+.ShopList {
+  .list {
+    position: relative;
+    .list-item {
+      display:-webkit-flex;display:flex;
+			display: -webkit-flex;
+      height: 200px;
+      padding-left: 50px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      .checkbox {
+				flex: 0 0 40px;
+        -webkit-flex: 0 0 40px;
+        //flex-basis: 40px;
+        height: 100%;
+        position: relative;
+        input[type="checkbox"], span.sel {
+          display: block;
+          width: 40px;
+          height: 40px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        input[type="checkbox"] {
+          opacity: 0;
+          z-index: 1;
+        }
+        input[type="checkbox"]:checked + span.sel {
+          border: 3px solid #71c3fd;
+          &:after {
+            display: block;
+          }
+        }
+        span.sel {
+          border: 3px solid #888;
+          border-radius: 50%;
+          &:after {
+            display: none;
+            position: absolute;
+            border: 3px solid #71c3fd;
+            top: 0.04rem;
+            right: 0.16rem;
+            width: 0.13333rem;
+            height: 0.29333rem;
+            border-style: solid;
+            border-width: 0 0.04rem 0.04rem 0;
+            content: ' ';
+            transform: rotate(45deg);
+          }
+        }
+      }
+
+      .img-wrap {
+        padding: 28px 0 28px 20px;
+				flex: 0 0 28%;
+        -webkit-flex: 0 0 28%;
+        text-align: center;
+				img{
+					width:143px;
+					height:143px;
+				}
+      }
+      .right {
+        display:-webkit-flex;display:flex;
+        flex-flow: column wrap;
+        flex: 1;
+				display: -webkit-flex;
+				-webkit-flex-flow: column wrap;
+        -webkit-flex: 1;
+        height: 100%;
+        padding: 28px 50px 0 0;
+        .name {
+          line-height: 1.2;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          @include font(26px);
+          color: #222;
+          margin: 28px 0 28px;
+        }
+        .down {
+          display:-webkit-flex;display:flex;
+          flex: 1;
+          -webkit-justify-content: space-between;justify-content: space-between;
+          display: -webkit-flex;
+          -webkit-justify-content: space-between;justify-content: space-between;
+          -webkit-flex: 1;
+          .price {
+            height: 40px;
+            margin-top: 15px;
+            @include font(30px);
+            color: #e4393c;
+          }
+          .counts{
+            width:220px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+
+.Address{
+	.address{
+		.am-list-item .am-list-line .am-list-content{
+			@include font(30px);
+			color: #999;
+		}
+		.haveAddress{
+			@include font(28px);
+			.pull-right{
+				margin-right: 25px;
+			}
+		}
+		.am-list-item .am-list-line .am-list-brief{
+			@include font(28px);
+	    white-space: initial;
+		}
+	}
+}

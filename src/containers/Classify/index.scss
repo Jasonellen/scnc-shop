@@ -1,0 +1,116 @@
+
+
+.Classify {
+	.searchHeader{
+		height: 88px;
+		width: 100%;
+		background: #fff;
+		position: absolute;
+		top: 0;
+		.searchBar{
+			width: 600px;
+			height: 60px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			position: fixed;
+			z-index: 999;
+			left: 50px;
+			top: 14px;
+			padding-left: 40px;
+			line-height: 60px;
+			@include font(24px);
+			color: #999;
+			text-align: center;
+			img{
+				width: 30px;
+				margin-right: 14px;
+		    margin-left: -30px;
+			}
+		}
+	}
+	.sort {
+	  display:-webkit-flex;display:flex;
+		display: -webkit-flex;
+	  margin-top: 88px;
+	  // 侧边导航
+	  .nav{
+	    width: 168px;
+		  height: calc(100vh - 188px);
+			overflow: auto;
+	    background-color: #fff;
+			position: relative;
+			.warp{
+				display:-webkit-flex;display:flex;
+				display: -webkit-flex;
+				flex-flow: column;
+				-webkit-flex-flow:column;
+			}
+	    .tag {
+	      display:-webkit-flex;display:flex;
+				display: -webkit-flex;
+	      position: relative;
+	      flex: 0 0 80px;
+				-webkit-flex:0 0 80px;
+	      .decor {
+	        border-left: 5px solid transparent;
+	        border-bottom: 1px solid #ddd;
+	      }
+	      .tag-note {
+					width: 168px;
+					line-height: 80px;
+					text-align: center;
+	        @include font(28px, #222);
+	        background-color: #fff;
+	        border-bottom: 1px solid #ddd;
+	      }
+	    }
+	    .active {
+	      .decor {
+	        color: #6195ff;
+	        border-left: 5px solid #6195ff;
+	        border-bottom: 1px solid transparent;
+	      }
+	      .tag-note {
+	        color: #6195ff;
+	        background-color: #f2f2f2;
+	      }
+	    }
+	  }
+	  // 商品列表
+	  .item-list {
+		  height: calc(100vh - 210px);
+			overflow: hidden;
+	    padding: 13px 6.5px 0 6.5px;
+			width: 567px;
+			.warp{
+				display:-webkit-flex;display:flex;
+		    flex-flow: row wrap;
+		    align-content: flex-start;
+				display: -webkit-flex;
+				-webkit-flex-flow: row wrap;
+				-webkit-align-items: flex-start;
+			}
+	    .item {
+	      width: 271.5px;
+	      height: 330px;
+	      margin: 0 6px 10px;
+	      background-color: #fff;
+	      .image {
+	        //height: 260px;
+			  img{
+				  width:100%;
+				  height:100%;
+			  }
+	      }
+	      .intro {
+	        margin: 15px 0;
+	        @include font(22px, #222);
+	        text-align: center;
+	        overflow : hidden;
+			    white-space: nowrap;
+	        text-overflow: ellipsis;
+	      }
+	    }
+	  }
+	}
+}

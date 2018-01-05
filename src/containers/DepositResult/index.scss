@@ -1,0 +1,42 @@
+
+.DepositResult{
+	text-align: center;
+	.head{
+		margin: 90px 0 95px;
+		img{
+			width: 120px;
+			height: 120px;
+		}
+		p{
+			@include font(32px);
+			line-height: 42px;
+			margin-top: 35px;
+			small{
+				@include font(24px,#999);
+				line-height: 34px;
+			}
+		}
+	}
+	.body{
+		background: #fff;
+		line-height: 90px;
+		@include font(30px);
+		.bank{
+			padding: 0 20px;
+			border-bottom: 1px solid #ddd;
+		}
+		.money{
+			padding: 0 20px;
+		}
+	}
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:100px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+}

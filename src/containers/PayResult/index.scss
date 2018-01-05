@@ -1,0 +1,36 @@
+
+.PayResult{
+	text-align: center;
+	height: 100vh;
+	background: #fff;
+	.paySuccess,.payFail{
+		img{
+			width: 300px;
+			height: 178px;
+			display: inline-block;
+			margin-top:253px;
+		}
+		p{
+			@include font(30px);
+			width: 70%;
+			margin:50px auto 46px;
+			line-height: 1.4;
+		}
+		div{
+			width:650px;
+			height: 80px;
+			border-radius: 10px;
+			border: 1px solid #578eff;
+			line-height: 80px;
+			margin:0 auto 30px;
+			@include font(32px,#578eff);
+		}
+		.toOrder{
+			color: #fff;
+			background: #588fff;
+		}
+	}
+	.payFail p{
+		color: #999;
+	}
+}

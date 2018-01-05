@@ -1,0 +1,39 @@
+
+.MyBank{
+	padding-top: 10px;
+	.btn{
+		height: 80px;
+		line-height: 80px;
+		color:#fff;
+		margin:100px auto;
+		@include fontSize(32px);
+	}
+	.btn.active{
+		background:#588fff;
+	}
+	.am-list-item .am-list-line .am-list-extra{
+		color: #bbb;
+		position: absolute;
+    left: 180px;
+	}
+	.card .am-list-item .am-list-line .am-list-extra{
+		color: #222;
+	}
+
+	.am-list-item .am-list-line .am-list-content{
+		@include font(30px);
+	}
+	.mySearch{
+		position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,.7);
+    .wrap{
+    	height: calc(100vh - 90px);
+    }
+    .am-list-body div:not(:last-child) .am-list-line:after{
+    	border:none;
+    }
+	}
+}

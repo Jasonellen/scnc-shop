@@ -1,0 +1,16 @@
+
+//空白页
+.blank{
+  padding-top: 192px;
+  height:100vh;
+  text-align: center;
+  background: #fff;
+  box-sizing:border-box;
+  img{
+    width: 118px;
+  }
+  p{
+    margin-top: 50px;
+    @include font(32px,#999);
+  }
+}

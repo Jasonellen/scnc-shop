@@ -1,0 +1,88 @@
+{
+    "addresses":[
+        {
+            "id":1,
+            "name":"张三",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"default",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        },
+				{
+            "id":4,
+            "name":"李四",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        },
+				{
+            "id":5,
+            "name":"李四",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        },
+				{
+            "id":6,
+            "name":"李四",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        },
+				{
+            "id":7,
+            "name":"李四",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        },
+				{
+            "id":8,
+            "name":"李四",
+            "email":null,
+            "phone":"15888801441",
+            "district_id":2,
+            "city_id":1,
+            "province_id":1,
+            "status":"",
+            "detail":"杭州市很多地方",
+            "zip_code":null,
+            "shipping_at":null,
+            "full_address":"北京市 东城区 杭州市很多地方"
+        }
+    ]
+}

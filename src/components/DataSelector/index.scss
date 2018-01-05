@@ -1,0 +1,44 @@
+
+
+.DataSelector{
+	.float{
+		width: 180px;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		position: fixed;
+		bottom: 120px;
+		margin-left: 20px;
+		border-radius: 30px;
+		background: rgba(0,0,0,.35);
+		@include font(26px, #fff);
+
+	}
+	.am-list-item{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		height: 100px;
+		border-top:1px solid #ddd;
+	}
+	.am-list-line{
+		.am-list-content{
+			text-align: center;
+			color: #588fff !important;
+		}
+		.am-list-content:after{
+			content: '';
+			width: 0;
+			display: inline-block;
+			border:17px solid transparent;
+			border-bottom-color:#588fff;
+			margin-left: 20px;
+		}
+		.am-list-extra{
+			display: none;
+		}
+		.am-list-arrow{
+			display: none;
+		}
+	}
+}
