@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
 import './index.scss';
-import {Tabs,Badge} from 'antd-mobile';
+import {Badge,SwipeAction} from 'antd-mobile';
 import {Link} from 'react-router'
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as otherAction from '@/actions/other';
 import ReactIScroll  from 'react-iscroll'
 import Blank from '@/components/Blank'
+import star from 'static/star.png'
 
 @connect(
 	state => {
 		return {
 			user:state.other.user
 		}
-	}
+	},
+	dispatch => bindActionCreators(otherAction, dispatch)
 )
 export default class MyCustomer extends Component {
 	constructor(props){
@@ -29,120 +33,90 @@ export default class MyCustomer extends Component {
 		}else{
 			this.getData()
 		}
+		eventEmitter.on('correct_ok', this.getData);
+	}
+	componentWillUnmount(){
+		//重写组件的setState方法，直接返回空
+		this.setState = ()=>{
+			return false;
+		};
+		eventEmitter.removeListener('correct_ok', this.getData);
 	}
 
 	getData = ()=>{
-		if(this.props.user.user_type == 1){
-			//获取我的消费者列表
-			_fetch(url.my_customer)
-				.then(data =>{
-					if(data){
-						this.setState({data})
-					}
-				})
-		}else if(this.props.user.user_type == 3){
-			//获取医生客户
-			_fetch(url.my_doctor_relations)
-				.then(data =>{
-					if(data){
-						this.setState({data})
-					}
-				})
+		let requestUrl = {
+			1:url.my_customer_sales,
+			3:url.my_relations,
+			4:url.my_workmate,
+			5:url.my_agents,
 		}
+		_fetch(requestUrl[this.props.user.user_type])
+			.then(data =>{
+				if(data){
+					this.setState({data})
+				}
+			})
 	}
 
 	render() {
 		let {data} =this.state
 		return (
 			<div className="MyCustomer">
-				<Tabs
-					defaultActiveKey='1'
-					swipeable={false}
-					onTabClick = {this.handleTabChange}
-				>
-					<Tabs.TabPane tab={`扫码注册用户(${data.length})`} key="1">
-						<div className="warp">
-							<ReactIScroll iScroll={IScroll}>
-								<div>
-								{
-									data.length>0
-										?
-										<ul className='list'>
-											{
-												data.map((item, i)=>{
-													if(this.props.user.user_type == 1 ){
-														return(
-															<li key={i}>
-																<Link to={{pathname:'/MyCustomer/Chat', state:{from_id:item.id,headimageurl:item.headimageurl,chat_limited:item.chat_limited}}}>
-																	<div className="head clearfix">
-																		<div className="">
-																			<img src={item.headimageurl || "/static/morentouxiang.png"} alt=""/>
-																			<span>{item.is_old ? item.username : item.name}</span>
-																			{item.unread ? <Badge text={`新消息+${item.unread}`}/> : ''}
-																		</div>
-																	</div>
-																</Link>
-															</li>
-														)
-													}
-													if(this.props.user.user_type == 3 ){
-														return(
-															<li key={i}>
-																<Link to={{pathname:'/RecommendOrder',query:{id:item.id}}}>
-																	<div className="head clearfix">
-																		<div className="">
-																			<img src={item.headimageurl || "/static/morentouxiang.png"} alt=""/>
-																			<span>{item.is_old ? item.username : item.name}</span>
-																		</div>
-																	</div>
-																</Link>
-															</li>
-														)
-													}
-												})
-											}
-										</ul>
-										: <Blank />
-								}
-								</div>
-							</ReactIScroll>
-						</div>
-					</Tabs.TabPane>
-					{/*<Tabs.TabPane
-						tab={`推荐注册用户(${dataFinished.length})`}
-						key="2"
-					>
-						<div className="warp">
-							<ReactIScroll iScroll={IScroll}>
-								<div>
-								{
-									dataFinished.length>0
-										?
-										<ul className='list'>
-											{
-												dataFinished.map((item, i)=>{
-													return(
-														<li key={i}>
-															<Link to={{pathname:'/MyCustomer/Chat', state:item.id + '南' + item.headimageurl}}>
-																<div className="head clearfix">
-																	<div className="pull-left">
-																		<img src={item.headimageurl || "/static/morentouxiang.png"} alt=""/>
-																		<span>{item.name}</span>
-																	</div>
+				<div className="warp">
+					<ReactIScroll iScroll={IScroll}>
+						<div>
+						{
+							data.length>0
+								?
+								<ul className='list'>
+									{
+										data.map((item, i)=>{
+											return(
+												<li key={i}>
+													<SwipeAction
+														autoClose
+														right={[
+															{
+																text: <span>&nbsp;&nbsp;&nbsp;备注名&nbsp;&nbsp;&nbsp;</span>,
+																onPress:()=>this.props.renameModal({modal:true,user_id:item.id}),
+																style: { backgroundColor: '#F4333C', color: 'white' },
+															},
+														]}
+													>
+														<Link to={{pathname:'/MyCustomer/Chat', state:{from_id:item.id,to_id:this.props.user.id,chat_limited:item.chat_limited}}}>
+															<div className="head clearfix">
+																<div className="">
+																	<img src={item.headimageurl || "/static/morentouxiang.png"} alt=""/>
+																	<span>{item.is_old ? item.username : (item.name || item.account)}</span>
+																	{
+																		!!item.user_type && (item.user_type>this.props.user.user_type) && <span className='rename'>{
+																			item.user_type == 3
+																			? ''
+																			: item.user_type == 4
+																				? '代理商'
+																				: item.user_type == 5
+																					? '经理'
+																					: ''
+																		}</span>
+																	}
+																	{item.unread ? <Badge text={`新消息+${item.unread}`}/> : ''}
+																	{
+																		!!item.user_type && (item.user_type>this.props.user.user_type) && item.user_type == 3 && <img src={star}  className='star' alt=""/>
+																	}
 																</div>
-															</Link>
-														</li>
-													)
-												})
-											}
-										</ul>
-									: <Blank />
-								}
-								</div>
-							</ReactIScroll>
+															</div>
+														</Link>
+													</SwipeAction>
+												</li>
+											)
+										})
+									}
+								</ul>
+								: <Blank />
+						}
 						</div>
-					</Tabs.TabPane>*/}
-				</Tabs>
+					</ReactIScroll>
+				</div>
 			</div>
 		);
 	}

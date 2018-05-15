@@ -1,0 +1,22 @@
+.alert_modal{
+	span{
+		font-size: 28px;
+  	display: block;
+  	color: red;
+	}
+	p{
+		font-size: 30px;
+  	color: red;
+    background: transparent;
+	}
+	.am-list-item.am-input-item{
+    border: 1px solid #bbb;
+  	border-radius: 10px;
+    margin: 10px;
+    position: relative;
+    z-index: 1;
+	}
+	.am-list-item.am-input-item:after{
+		border:none;
+	}
+}

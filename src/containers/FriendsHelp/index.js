@@ -8,29 +8,32 @@ import no_points from 'static/no_points.svg'
 import share from 'static/share.svg'
 import friendHelpBg from 'static/friendHelpBg.png'
 import ReactIScroll  from 'react-iscroll'
+import { browserHistory } from 'react-router'
+import moment from 'moment'
 
 export default class FriendsHelp extends Component {
-	constructor(props){
-		super(props)
-		this.state={
-			colors:["#ffe89a", "#fe8249", '#982fcc'],
-			data:[
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-				{name:'张三',created_at:'xxxxxxTxxxx',point:5},
-			],
-			score:234,
-		}
+	state={
+		colors:["#ffe89a", "#fe8249", '#982fcc'],
+		list:[],
+		point:0,
 	}
 
 	componentDidMount(){
+		wxShare({
+			title:'福利来啦，快为我助力！上儿商城积分兑好礼！',
+			desc:'快为我助力，互相加”油“，上儿母婴营养品人人有份~你也来加入吧！',
+			link:location.origin + '/FriendsHelpShare/' + localStorage.getItem('s_token')
+		})
 		this.canvasInit()
+		_fetch(url.users_invite_point)
+			.then(data=>{
+				if(data.success){
+					this.setState({
+						point:data.point,
+						list:data.list
+					})
+				}
+			})
 	}
 
 	canvasInit(){
@@ -39,14 +42,14 @@ export default class FriendsHelp extends Component {
 		var ctx = canvas.getContext('2d');
 		var _width = canvas.width
 		var _height = canvas.height
-		var beginDot = _height*0.8
+		var beginDot = _height*0.65
 		window.requestAnimationFrame =  window.requestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.webkitRequestAnimationFrame ||
 			window.msRequestAnimationFrame;
 
 
-		var gradient=ctx.createLinearGradient(_width/2,_height*0.7, _width/2,_height*1.05);
+		var gradient=ctx.createLinearGradient(_width/2,_height*0.6, _width/2,_height*1.05);
 		gradient.addColorStop(0,colors[0]);
 		gradient.addColorStop(0.48,colors[1]);
 		gradient.addColorStop(1,colors[2]);
@@ -78,31 +81,33 @@ export default class FriendsHelp extends Component {
 	}
 
 	render() {
-		const {data,score} =this.state
+		const {list,point} =this.state
 		return (
 			<div className="FriendsHelp">
 				<h2>请点击右上角,邀请好友助力领积分。<img src={share} alt=""/></h2>
 				<div className="head" style={{background: `url(${friendHelpBg}) center center no-repeat`,backgroundSize:'contain'}}>
-					<div>
+					<span className="pull-right" onClick={()=>browserHistory.push('/ZhuLiRank')}>助力排行榜</span>
+					<div className='box'>
 						<canvas id='canvas'></canvas>
-						<span className={String(score).length>5?'small':''}>{score || 0}</span>
+						<span className={String(point).length>5?'small':''}>{point || 0}</span>
 					</div>
+					<div className="has">已获得助力积分</div>
 				</div>
 
 				<div id='list'>
 					<ReactIScroll iScroll={IScroll}>
 						<div>
 							{
-								data.length>0
+								list.length>0
 									?
 									<ul>
 										{
-											data.map(function(item, i){
+											list.map(function(item, i){
 												return(
 													<li key={i} className='clearfix'>
 														<div className="pull-left">
 															<h3>{item.name} <small>已助力</small></h3>
-															<p>{item.created_at.slice(0,16).replace('T',' ')}</p>
+															<p>{moment(item.time).format('YYYY-MM-DD HH:mm')}</p>
 														</div>
 														<span className="pull-right">+{item.point}</span>
 													</li>

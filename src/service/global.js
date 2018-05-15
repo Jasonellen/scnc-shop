@@ -4,20 +4,49 @@ import '@/lib/iscroll-probe'
 import _fetch from '@/service/fetch'
 import url from '@/api'
 import fetchJsonp from 'fetch-jsonp'  //全局的跨域请求
+// import VConsole from 'vconsole/dist/vconsole.min.js'
+// new VConsole();
+import FastClick from 'fastclick' // 解决移动端300ms延迟
+import wxShare from '@/service/wxShare'
+// 解决移动端300ms延迟
+FastClick.attach(document.body)
+
+// 引入 events 模块
+var events = require('events');
+// 创建 eventEmitter 对象
+var eventEmitter = new events.EventEmitter();
 
 //全局变量
 Object.defineProperties(global, {
 	_fetch: {value: _fetch},
 	url: {value: url},
 	fetchJsonp: {value: fetchJsonp},
+	preventDefaultFn:{value: _preventDefaultFn},
+	removeDefaultFn:{value: _removeDefaultFn},
+	eventEmitter:{value: eventEmitter},
+	wxShare:{value: wxShare},
 });
+_preventDefaultFn()
 
-//禁止页面默认滚动
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
-	capture: false,
-	passive: false
-} : false);
+wxShare() //微信分享
 
+//禁止默认事件(禁止页面默认滚动)
+function _preventDefaultFn(){
+	document.addEventListener('touchmove', preventFn, isPassive() ? {
+		capture: false,
+		passive: false
+	} : false);
+}
+//取消禁止默认事件
+function _removeDefaultFn(){
+	document.removeEventListener('touchmove', preventFn, isPassive() ? {
+		capture: false,
+		passive: false
+	} : false);
+}
+function preventFn(e){
+	e.preventDefault();
+}
 function isPassive() {
 	var supportsPassiveOption = false;
 	try {
@@ -32,7 +61,7 @@ function isPassive() {
 
 //分享进来的,重新进一下,不然二次分享失败
 if(location.href.indexOf('from') !== -1){
-	location.href = location.origin
+	location.href = location.origin + location.pathname
 }
 
 //微信中更新token信息
@@ -44,7 +73,7 @@ if(ua.match(/MicroMessenger/i) == 'micromessenger'){
 		})
 		.then((data)=>{
 			console.log(data,'successjsonp')
-			let oldToken = localStorage.getItem('s_token')
+			let oldToken = localStorage.getItem('s_token_old')
 			if(oldToken && (oldToken !== data.token)){
 				localStorage.setItem('s_token',data.token)
 				location.reload()

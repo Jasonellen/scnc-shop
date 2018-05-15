@@ -3,54 +3,88 @@
  */
 import React, {Component} from 'react';
 import './index.scss';
-import {WhiteSpace, WingBlank, Toast} from 'antd-mobile';
-import {Link} from 'react-router'
+import {WhiteSpace, WingBlank, Toast, Modal} from 'antd-mobile';
+import {Link, browserHistory} from 'react-router'
 import ReactIScroll  from 'react-iscroll'
 import record from 'static/record.svg'
 import recordofconversion from 'static/recordofconversion.svg'
+import {connect} from 'react-redux';
 
+@connect(
+	state => {
+		return {
+			state: state.other.user,
+		}
+	},
+	null
+)
 export default class IntegralMall extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			products: [],
+			data:[], 
+			point_base:0
 		}
 	}
 
 	componentDidMount() {
-
-		//请求首页数据
-		_fetch(url.home)
-			.then(data=> {
-				this.setState({
-					products: data.products,
-				})
+		this.getSignInData()
+		this.getPointGoodsData()
+	}
+	//签到
+	handleSignIn = ()=>{
+		_fetch(url.users_sign_in,{},'FORM')
+			.then(data=>{
+				if(data.success){
+					Toast.info(<h1>签到成功!<br/><small>积分+{data.data}</small></h1>)
+				}else{
+					Modal.alert('',data.desc)
+				}
 			})
 	}
-	handleSignIn = ()=>{
-		Toast.info(<h1>签到成功!<br/><small>积分+5</small></h1>)
+	//签到基数
+	getSignInData = ()=>{
+		_fetch(url.users_sign_point_settings)
+			.then(data=>{
+				if(data.length>0){
+					this.setState({
+						point_base:data.find(function(item){
+							return item.sign_index == 2
+						}).sign_point
+					})
+				}
+			})
+	}
+	//获取积分商品列表
+	getPointGoodsData = ()=>{
+		_fetch(url.exchange_goods)
+			.then(data=>this.setState({data}))
 	}
 
 	render() {
-		const {products} = this.state
+		const {data, point_base} = this.state
+		const {point} = this.props.state
 		return (
 			<div className="IntegralMall">
-				<ReactIScroll iScroll={IScroll}>
+				<ReactIScroll 
+					iScroll={IScroll}
+					options={{deceleration:0.005}}
+				>
 					<div>
 						<div className="top clearfix">
 							<div className="top_head">
 								<div className="pull-left" onClick={this.handleSignIn }>
 									<h2>签到</h2>
-									<p>+5</p>
+									<p>+{point_base}</p>
 								</div>
-								<div className="pull-right">
+								<div className="pull-right" onClick={()=>browserHistory.push('/FriendsHelp')}>
 									<h2>好友助力</h2>
 									<p>领积分</p>
 								</div>
 							</div>
 							<div className="top_foot clearfix">
 								<div className="pull-left first">
-									<img src={record} alt=''/><span>2341</span><i>积分</i>
+									<img src={record} alt=''/><span>{point}</span><i>积分</i>
 								</div>
 								<div className="pull-right">
 									<img src={recordofconversion} alt=""/><i>兑换记录</i>
@@ -66,14 +100,14 @@ export default class IntegralMall extends Component {
 							</div>
 							<ul className="body clearfix">
 								{
-									products.map(function (item, index) {
-										return <li className='pull-left' key={index}>
-											<Link to={`/GoodsDetail/${item.id}`}>
-												<img src={item.list_img} alt=""/>
+									data.map(function (item, index) {
+										return <li className='pull-left' key={item.id}>
+											<Link to={`/MallDetail/${item.id}`}>
+												<img src={item.cover} alt=""/>
 												<h3>{item.name}</h3>
 												<p className='clearfix'>
-													<span className='pull-left'>{item.price}<i> 积分</i></span>
-													<span className='pull-right'>{item.purchases_count}人已兑换</span>
+													<span className='pull-left'>{item.point}<i> 积分</i></span>
+													{/*<span className='pull-right'>{item.purchases_count}人已兑换</span>*/}
 												</p>
 											</Link>
 										</li>

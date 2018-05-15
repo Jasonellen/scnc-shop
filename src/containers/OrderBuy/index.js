@@ -96,6 +96,7 @@ export default class OrderBuy extends Component {
 						}
 
 						<Switch
+							platform="ios"
 							disabled={!set_pay_password || disabled}
 							checked={switchChecked}
 							onChange={this.handleChecked}

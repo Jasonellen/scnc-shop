@@ -11,6 +11,7 @@ import Address from '@/components/Address'
 import ReactIScroll  from 'react-iscroll'
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux';
+import moment from 'moment';
 import * as drawBackAction from '@/actions/drawBack.js';
 import * as shippingAction from '@/actions/shipping.js';
 //图片
@@ -197,22 +198,39 @@ export default  class DaiFuKuan extends Component {
 						</div>
 						<WhiteSpace/>
 						{
-							(data.state == 'completed' || data.state == 'shipping') && context && (
-								<List  className="wuliu">
-									<List.Item
-										multipleLine
-										onClick={()=>	browserHistory.push('/CheckLogistics')}
-									>
-										{context}
-										<List.Item.Brief>{time}</List.Item.Brief>
-									</List.Item>
-								</List>
+							(data.state == 'completed' || data.state == 'shipping') && (
+								context
+								?
+									<List  className="wuliu">
+										<List.Item
+											multipleLine
+											onClick={()=>	browserHistory.push('/CheckLogistics')}
+										>
+											{context}
+											<List.Item.Brief>{time}</List.Item.Brief>
+										</List.Item>
+									</List>
+								: 
+									<div className="already_unline">
+										<h2>物流单号<small>(暂未查到物流信息)</small></h2>
+										<p>{data.shipping_no}</p>
+									</div>
 							)
 						}
-						<Address
-							data={data}
-						/>
-						<div className='msg'>买家留言：{data.memo}</div>
+						{
+							data.state == 'took' && (
+								<div className="already_unline">
+									<h2>已线下收货</h2>
+									<p>{moment(data.created_at).format('YYYY-MM-DD hh:mm')}</p>
+								</div>
+							)
+						}
+						<div>
+							<Address
+								data={data}
+							/>
+							<div className='msg'>买家留言：{data.memo}</div>
+						</div>
 						<WhiteSpace/>
 						<div className="title clearfix">
 							订单信息

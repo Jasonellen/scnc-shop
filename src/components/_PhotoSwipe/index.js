@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Photoswipe from 'photoswipe';
 import PhotoswipeUIDefault from 'photoswipe/dist/photoswipe-ui-default';
-import './photoSwipe.scss'
+import 'photoswipe/dist/photoswipe.css';
+import 'photoswipe/dist/default-skin/default-skin.css';
+import './index.scss'
 
 let events = [
 	'beforeChange',
@@ -35,14 +37,7 @@ export default class PhotoSwipeGallery extends React.Component {
 	};
 
 	static defaultProps = {
-		options: {
-			shareEl: false,
-			tapToClose: true,
-			closeEl:false,
-			captionEl: false,
-			fullscreenEl: false,
-			//http://photoswipe.com/documentation/options.html
-		},
+		options: {},
 		thumbnailContent: item => (
 			<img src={item.src} width="100" height="100" alt=""/>
 		),
@@ -55,7 +50,7 @@ export default class PhotoSwipeGallery extends React.Component {
 
 	state = {
 		isOpen: this.props.isOpen,
-		options: this.props.options
+		options: Object.assign({},{shareEl: false,tapToClose: true,closeEl:true,captionEl: false,fullscreenEl: false},this.props.options)
 	};
 
 	componentWillReceiveProps = (nextProps) => {
@@ -152,7 +147,8 @@ export class _PhotoSwipe extends React.Component {
 	};
 
 	state = {
-		isOpen: this.props.isOpen
+		isOpen: this.props.isOpen,
+		options: Object.assign({},{shareEl: false,tapToClose: true,closeEl:true,captionEl: false,fullscreenEl: false},this.props.options)
 	};
 
 	componentDidMount = () => {
@@ -180,33 +176,36 @@ export class _PhotoSwipe extends React.Component {
 	};
 
 	openPhotoSwipe = (props) => {
-		const { items, options } = props;
-		items.map(function(item){
-			if(!item.w)item.w = 1200;
-			if(!item.h)item.h = 900;
+		const { items } = props;
+		this.setState({options:Object.assign({},this.state.options,props.options)},()=>{
+			items.map(function(item){
+				if(!item.w)item.w = 1200;
+				if(!item.h)item.h = 900;
+			})
+			const pswpElement = document.querySelectorAll('.pswp')[0];
+
+			this.photoSwipe = new Photoswipe(pswpElement, PhotoswipeUIDefault, items, this.state.options);
+			events.forEach((event) => {
+				const callback = props[event];
+				if (callback || event === 'destroy') {
+					const self = this;
+					this.photoSwipe.listen(event, function (...args) {
+						if (callback) {
+							args.unshift(this);
+							callback(...args);
+						}
+						if (event === 'destroy') {
+							self.handleClose();
+						}
+					});
+				}
+			});
+			this.setState({
+				isOpen: true
+			}, () => {
+				this.photoSwipe.init();
+			});
 		})
-		const pswpElement = document.querySelectorAll('.pswp')[0];
-		this.photoSwipe = new Photoswipe(pswpElement, PhotoswipeUIDefault, items, options);
-		events.forEach((event) => {
-			const callback = props[event];
-			if (callback || event === 'destroy') {
-				const self = this;
-				this.photoSwipe.listen(event, function (...args) {
-					if (callback) {
-						args.unshift(this);
-						callback(...args);
-					}
-					if (event === 'destroy') {
-						self.handleClose();
-					}
-				});
-			}
-		});
-		this.setState({
-			isOpen: true
-		}, () => {
-			this.photoSwipe.init();
-		});
 	};
 
 	updateItems = (items = []) => {

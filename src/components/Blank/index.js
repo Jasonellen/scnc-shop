@@ -9,7 +9,7 @@ export default function Blank(props){
 	return (
 		<div className="blank">
 			<img src={props.img || orderBlank} alt="" style={{width:props.imgWidth}}/>
-			<p>{props.text || '您还没有相关订单哦~'}</p>
+			<p>{props.text || '还没有相关信息哦~'}</p>
 		</div>
 	)
 }

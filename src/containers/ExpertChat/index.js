@@ -33,7 +33,7 @@ export default class ExpertChat extends Component {
 			loadingShow:false,
 			src:'1',
 			isOpen:false,
-			OS:1,
+			OS:'',
 		}
 	}
 	componentDidMount(){
@@ -149,7 +149,9 @@ export default class ExpertChat extends Component {
 	}
 	//展开面板
 	handlePan=(value)=>{
-		this.setState({picShow:value})
+		this.setState({picShow:value},()=>{
+			document.getElementById('ExpertChat').scrollTop = document.getElementById('ExpertChat').scrollHeight;
+		})
 	}
 	//输入文本
 	textChange=(e)=>{
@@ -179,10 +181,14 @@ export default class ExpertChat extends Component {
 	//聚焦
 	handleFocus = ()=>{
 		setTimeout(()=>{
-			if(this.state.OS < 11){
-				this.refs.ipt.scrollIntoView(true)
+			if(this.state.OS && this.state.OS < 11){
+				this.refs.ipt.scrollIntoView(true);
 				this.refs.ipt.scrollIntoViewIfNeeded();
-				document.body.scrollTop = 10000
+			}else if(this.state.OS){
+				return;
+			} else {
+				this.refs.ipt.scrollIntoView(true);
+				document.body.scrollTop = document.body.scrollHeight;
 			}
 		},400)
 	}
@@ -278,7 +284,7 @@ export default class ExpertChat extends Component {
 				</div>
 				<div className="bottom">
 					<div className="head" ref = 'ipt'>
-						<textarea  value={text} onChange={(e)=>this.textChange(e)} ref='textarea' onFocus={this.handleFocus} onBlur = {this.handleBlur}/>
+						<textarea  value={text} onChange={(e)=>this.textChange(e)} ref='textarea' onClick={this.handleFocus} onFocus={this.handleFocus} />
 						<span onClick={this.sendMsg}>发送</span>
 						<img src={chatAdd} alt="" onClick={()=>this.handlePan(true)}/>
 					</div>

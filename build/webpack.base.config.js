@@ -6,19 +6,18 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 module.exports = {
-	// context: __dirname, // string (absolute path!) default root->'/'
-  // the home directory for webpack(webpack 运行文件根目录)
+
   entry: {
     app: './src/app.js'
-		//入口entry和loader的路径都是相对于context的
+
   },
   output: {
     path: config.build.path,
     filename: '[name].js',
 		publicPath: '/'
   },
-  resolve: {  //解决一些扩展名和别名
-    extensions: [ '.web.js', '.js', '.json'],//.web.js要放在第一位
+  resolve: {  
+    extensions: [ '.web.js', '.js', '.json'],
     alias: {
       '@': resolve('src'),
 			'~': resolve('src/containers'),
@@ -81,7 +80,7 @@ module.exports = {
 						loader: "url-loader",
 						options: {
 		          limit: 10000,
-		          name: config.build.imgPath+'/[name].[ext]' //outpath(../dist)基础上
+		          name: config.build.imgPath+'/[name].[ext]' 
 		        },
 					}
 				],

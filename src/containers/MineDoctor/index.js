@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './index.scss';
 import {WhiteSpace, Flex, List, Badge} from 'antd-mobile';
 import {Link, browserHistory} from 'react-router'
-import {connect} from 'react-redux';
 import ReactIScroll  from 'react-iscroll'
 //图片
 import dengdaifukuan from 'static/daifukuan.svg'
@@ -15,59 +14,36 @@ import tuijiandingdan from 'static/tuijiandingdan.png'
 import wodeerweima from 'static/wodeerweima.png'
 import wodekehu from 'static/wodekehu.png'
 import Integral from 'static/Integral.png'
-
-
 import putonghuiyuan from 'static/putonghuiyuan.png'
 import yinpaihuiyuan from 'static/yinpaihuiyuan.png'
 import jingpaihuiyuan from 'static/jingpaihuiyuan.png'
 import zuanshihuiyuan from 'static/zuanshihuiyuan.png'
-
+// import cartoon from 'static/cartoon.png'
+import edit from 'static/edit.svg'
+import {connect} from 'react-redux';
+import * as otherAction from '@/actions/other';
+import { bindActionCreators } from 'redux'
+// import { getCookie, deleteCookie } from '@/service/cookie'
 
 @connect(
 	state => {
 		return {
-			user:state.other.user
+			state:state.other
 		}
-	}
+	},
+	dispatch => bindActionCreators(otherAction, dispatch)
 )
 export default class MineDoctor extends Component {
-	constructor(props){
-		super(props)
-		this.state={}
-	}
-	componentDidMount() {
-		//获取我的订单
-		_fetch(url.myOrder,{order_status:1})
-			.then(data=>{
-				let pendingData = data.orders.filter(function(item){
-					return item.aasm_state == 'pending'
-				})
-				let paidData = data.orders.filter(function(item){
-					return item.aasm_state == 'paid'
-				})
-				let shippingData = data.orders.filter(function(item){
-					return item.aasm_state == 'shipping'
-				})
-				let completedData = data.orders.filter(function(item){
-					return item.aasm_state == 'completed'
-				})
-				this.setState({
-					pendingCount:pendingData.length,
-					paidCount:paidData.length,
-					shippingCount:shippingData.length,
-					completedCount:completedData.length,
-				})
-			})
-	}
+
 	componentWillUnmount(){
 		//重写组件的setState方法，直接返回空
 		this.setState = ()=>{
-			return;
+			return false;
 		};
 	}
+
 	render() {
-		const {user} = this.props
-		const { pendingCount,paidCount,shippingCount,completedCount } = this.state
+		const { pendingCount,paidCount,shippingCount,completedCount,user,unread_message,unread_message_order } = this.props
 		let img=''
 		switch(user.level){
 		case 1:
@@ -92,16 +68,16 @@ export default class MineDoctor extends Component {
 							<div className="head">
 								<img src={user.headimageurl || "/static/morentouxiang.png"} alt="" className='head_pic'/>
 								<img src={img} alt="" className='badge'/>
-								<p>{user.name}</p>
+								<p onClick={()=>this.props.renameModal({modal:true})}>{user.nick_name || user.name} <img src={edit} alt=""/></p>
 							</div>
-							{
+							<Link to='/bindAccount'><div className="bind">绑定账号</div></Link>
+							{/*
 								user && user.mobile
-									?
-									<Link to='/manageAccount'><div className="bind">账号管理</div></Link>
-									:
-									<Link to='/bindAccount'><div className="bind">绑定账号</div></Link>
-
-							}
+								?
+								<Link to='/manageAccount'><div className="bind">账号管理</div></Link>
+								:
+								<Link to='/bindAccount'><div className="bind">绑定账号</div></Link>
+							*/}
 						</div>
 						<div className="bottom">
 							<Flex justify="around">
@@ -169,16 +145,15 @@ export default class MineDoctor extends Component {
 						<List className="other_list">
 							<List.Item
 								thumb={wodekehu}
-								onClick={() => {}}
 								arrow='horizontal'
-							>我的客户</List.Item>
+								extra={!!unread_message && <small style={{color:'#588fff'}}>{unread_message + '条新消息'}</small>}
+							>我的营养顾问/客户</List.Item>
 						</List>
 					</Link>
 					<Link to='/MyQRCode'>
 						<List className="other_list">
 							<List.Item
 								thumb={wodeerweima}
-								onClick={() => {}}
 								arrow='horizontal'
 							>我的二维码</List.Item>
 						</List>
@@ -188,7 +163,7 @@ export default class MineDoctor extends Component {
 							<List.Item
 								thumb={tuijiandingdan}
 								arrow='horizontal'
-								onClick={() => {}}
+								extra={!!unread_message_order && <small style={{color:'#588fff'}}>{unread_message_order + '条新订单'}</small>}
 							>推荐订单</List.Item>
 						</List>
 					</Link>

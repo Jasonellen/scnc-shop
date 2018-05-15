@@ -24,10 +24,17 @@ export default class OrderBuyPay extends Component {
 			walletPay:false,
 			err:'',
 			order_no:props.location.state,
-			created_at:''
+			created_at:'',
+			amount:0
 		}
 	}
 	componentDidMount() {
+		//首次进入刷新页面
+		if(!sessionStorage.getItem('scncHasReload')){
+			sessionStorage.setItem('scncHasReload',true)
+			location.reload()
+		}
+
 		_fetch(url.get_order_info,{order_no:this.props.location.state})
 			.then(data=>{
 				this.setState({
@@ -156,7 +163,7 @@ export default class OrderBuyPay extends Component {
 									},
 								])
 							}else{
-								Modal.alert("", "支付失败，请稍后再试")
+								Modal.alert("", data.desc)
 							}
 						})
 				}else{
@@ -164,7 +171,9 @@ export default class OrderBuyPay extends Component {
 				}
 			})
 	}
-
+	componentWillUnmount() {
+		sessionStorage.setItem('scncHasReload','')
+	}
 	render() {
 		const { wx, walletPay, err, created_at, amount, order_no } =this.state
 		const { pay_way_id} =this.props.state

@@ -1,11 +1,14 @@
 
 
 .RecommendOrder{
+	.am-tabs-ink-bar{
+		width: 33% !important;
+	}
 	.box{
 		margin-top: 20px;
 	}
 	.warp,.warp1{
-		height: calc(100vh - 190px);
+		height: calc(100vh - 200px);
 		overflow: hidden;
 	}
 	.am-tabs-tabpane{
@@ -72,5 +75,33 @@
 			@include font(32px, #999);
 			line-height: 1;
 		}
+	}
+	.selectBox{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: #588fff;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    position: relative;
+    z-index: 999;
+    >div{
+    	flex:1
+    }
+    .DataSelector{
+	    border-left: 1px solid #ddd;
+	    .float{
+    		right: 10px;
+    	}
+    	.am-list-item{
+	    	position: static;
+		    bottom: 0;
+		    width: auto;
+		    height: auto;
+		    border-top:none;
+	    }
+    }
 	}
 }

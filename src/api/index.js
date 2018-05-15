@@ -89,6 +89,30 @@ Object.defineProperties(url, {
 	get_message:{value: __host__ + 'messages/get_message'}, //获取回话的最近消息
 	get_unread_messages:{value: __host__ + 'messages/get_unread_messages'}, //获取未读消息
 	alipay:{value: (id)=>__host1__ + `pays/${id}/alipay`}, //支付宝链接
+	get_banners:{value: __host__ + `home/get_banners`}, //新版首页接口
+	my_relation_msg_counts:{value: __host__ + `users/my_relation_msg_counts`}, //用户关系相关的未读消息  ---
+	my_recommend_order_counts:{value: __host__ + `users/my_recommend_order_counts`}, //未读推荐订单 
+	my_agents:{value: __host__ + `users/my_agents`}, //获取我的代理商
+	my_workmate:{value: __host__ + `users/my_workmate`}, //代理商获取经理和业务员
+	my_relations:{value: __host__ + `users/my_relations`}, //业务员获取代理商和营养师
+	my_customer_sales:{value: __host__ + `users/my_customer_sales`}, //营养师获取业务代表和客户
+	get_my_relations:{value: __host__ + `users/get_my_relations`}, //获取用户关系
+	read_order_msg:{value: __host__ + `users/read_order_msg`}, //
+	download:{value: __host__ + `messages/download`}, //
+	update_user_name:{value: __host__ + 'users/update_user_name'}, //修改本人备注
+	save_memo_name:{value: __host__ + 'users/save_memo_name'}, //修改其他用户备注
+	users_register:{value: __host__ + 'users/register'}, //用户注册
+	users_doctor_login:{value: __host__ + 'users/doctor_login'}, //新用户登录
+	forgot_password:{value: __host__ + 'users/forgot_password'}, //忘记密码
+	change_password:{value: __host__ + 'users/change_password'}, //修改密码
+	doctor_logout:{value: __host__ + 'users/doctor_logout'}, //退出登录
+	users_sign_in:{value: __host__ + 'users/sign_in'}, //签到
+	users_invite_ranking:{value: __host__ + 'users/invite_ranking'}, //助力排行榜
+	users_invite_point:{value: __host__ + 'users/invite_point'}, //助力列表
+	users_invite_friend:{value: __host__ + 'users/invite_friend'}, //好友帮助助力一下
+	users_sign_point_settings:{value: __host__ + 'users/sign_point_settings'}, //好友签到基数
+	users_invite_friend_point_setting:{value: __host__ + 'users/invite_friend_point_setting'}, //好友助力基数
+	exchange_goods:{value: __host__ + 'exchange_goods'}, //积分商品列表
 });
 
 export default url

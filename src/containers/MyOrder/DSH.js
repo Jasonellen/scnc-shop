@@ -53,7 +53,13 @@ export default function DSH(props){
 			<div className="bottom clearfix">
 				合计：<span>￥{item.amount}</span>
 				<div className="pull-right">
+				{
+					item.aasm_state == 'took'
+					? 
+					<div className="cancel" style={{padding:'0 .14rem'}}>已线下收货</div>
+					:
 					<div className="cancel" onClick={()=>props.handleCheckLogistic(item.order_no,item.shipping.code,item.shipping_no,item.shipping.name,item.shipping.logo)}>查看物流</div>
+				}
 					<div className="ok" onClick={()=>props.handleConfirm(item)}>确认收货</div>
 				</div>
 			</div>

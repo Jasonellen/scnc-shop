@@ -55,12 +55,7 @@ export default class MyCollection extends Component {
 														autoClose
 														right={[
 															{
-																text: '取消',
-																onPress: () => console.log('cancel'),
-																style: { backgroundColor: '#ddd', color: 'white' },
-															},
-															{
-																text: '删除',
+																text: <span>&nbsp;&nbsp;&nbsp;删除&nbsp;&nbsp;&nbsp;</span>,
 																onPress:()=>this.cancelCollect(item.id),
 																style: { backgroundColor: '#F4333C', color: 'white' },
 															},

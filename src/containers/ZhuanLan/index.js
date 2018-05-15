@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './index.scss'
 import { Link} from 'react-router'
-import UpPull from '@/components/UpPull'
+import {Toast} from 'antd-mobile'
+import ReactIScroll  from 'react-iscroll'
 
 export default class ZhuanLan extends Component {
 	constructor(props){
@@ -15,33 +16,34 @@ export default class ZhuanLan extends Component {
 		}
 	}
 	componentDidMount(){
-
-		setTimeout(()=>{
-			this.scroll = new IScroll('.ZhuanLan',{
-				probeType: 2
-			})
-			this.setState({
-				iscroll:this.scroll
-			})
-		},500)
-
 		this.getArticles()
 			.then(data=>{
 				this.setState({data})
 			})
 	}
 
-	handleLoading = ()=>{
-		this.setState({isLoading:true, page:this.state.page+1}, ()=>{
-			this.getArticles()
-				.then(data=>{
-					if(data.length>0){
-						this.setState({data:this.state.data.concat(data), isLoading:false})
-					}else{
-						this.setState({hasMore:false, isLoading:false})
-					}
-				})
-		})
+	handleLoading = (iscroll)=>{
+		if(!iscroll.maxScrollY) return;
+		if(!this.fetching && (iscroll.y <= iscroll.maxScrollY )){
+			if(this.noMore){
+				Toast.info('没有更多数据了！',1);
+				return
+			}
+			this.fetching = true
+			this.setState({page:this.state.page+1}, ()=>{
+				this.getArticles()
+					.then(data=>{
+						if(data.length>0){
+							this.fetching = false
+							this.setState({data:this.state.data.concat(data)})
+						}else{
+							this.fetching = false
+							this.noMore = true
+							Toast.info('没有更多数据了！',1)
+						}
+					})
+			})
+		}
 	}
 
 	getArticles = () =>{
@@ -58,9 +60,14 @@ export default class ZhuanLan extends Component {
 		this.scroll = null
 	}
 	render() {
-		const {data, isLoading, hasMore, iscroll} =this.state
+		const { data } =this.state
 		return (
 			<div className="ZhuanLan">
+			<ReactIScroll 
+				iScroll={IScroll} 
+				options={{probeType: 3}}
+				onScroll = {this.handleLoading}
+			>
 				<ul>
 					{
 						data.length>0 && data.map((item,i)=>{
@@ -80,13 +87,8 @@ export default class ZhuanLan extends Component {
 							)
 						})
 					}
-					<UpPull
-						iscroll = { iscroll }
-						hasMore ={hasMore}
-						isLoading = {isLoading}
-						onLoading = {this.handleLoading}
-					/>
 				</ul>
+			</ReactIScroll>
 			</div>
 		);
 	}

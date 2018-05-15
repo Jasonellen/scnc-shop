@@ -8,17 +8,19 @@ export default async(url1 = '', params = {}, type = 'GET')=>{
 	if(process.env.NODE_ENV == 'development'){
 		if(_dev_api){
 			//开发环境本地token
-			localStorage.setItem('s_token','oC8jQwm0e_za5_1lKi57KDNHpmZc 	')
-			//测试 我：oC8jQwm0e_za5_1lKi57KDNHpmZc  营养师
-			//陈强：oC8jQwpCDFAGFwN17GjBSc0xlTlk  业务员
+			localStorage.setItem('s_token','oC8jQwm0e_za5_1lKi57KDNHpmZc')
+			//我：oC8jQwm0e_za5_1lKi57KDNHpmZc  营养师
 			//HLL：oC8jQwkbMZP8XtFH3t3H0xMons_I 营养师
 			//寒冰：oC8jQwugKmaM6Ibi6T5FtJMAGbtY
+			//劳：oC8jQwqS_gbWPC0om8B4MXmV9vF8
 		}else{
 			//生产环境本地token
-			localStorage.setItem('s_token','oGnc4wjxj-8YECsCmsTJKw-eN9R4')
+			localStorage.setItem('s_token','oGnc4wgPZaZjq94zrNMwzETF-Vgw')
 			//我:oGnc4wjxj-8YECsCmsTJKw-eN9R4  消费者
 			//劳：oGnc4wkenrk5SYcMsnVmk67I3z0E  营养师
 			//落：oGnc4wuj_jEAMvrrPyj_iqH6GYW4 业务员
+			//叶姐： oGnc4wqjhLidZKk-ba0jYcDH9F8g
+			//飞羽：oGnc4wpNOQMRcKdWoYrHb2NM46Ps
 		}
 	}
 

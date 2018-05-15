@@ -44,7 +44,7 @@
 	.btn.active{
 		background:#588fff;
 	}
-	.old{
+	.old,.login{
 		display:block;
     width: 264px;
     border: 1px solid #ddd;
@@ -53,6 +53,11 @@
     text-align: center;
     @include font(28px);
     border-radius: 10px;
-    margin: 350px auto;
+    margin: 100px auto;
 	}
+	.login{
+    margin-top: 200px;
+    color: #588fff;
+	}
+
 }

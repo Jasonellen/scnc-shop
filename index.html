@@ -20,7 +20,64 @@
     </script>
     <link href="/static/ICON.ico" rel="icon" type="image/x-icon" />
 	<style>
-		.pswp{display: none;}
+		#preload{
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1000;
+			width: 100%;
+			height: 100%;
+			background: #fff;
+		}
+		#preload .spinner {
+			width: calc(40vw/3);
+			height: calc(40vw/3);
+			position: relative;
+			margin: 50% auto 30%;
+		}
+		#preload .dot1,.dot2,.dot3,.dot4,.dot5,.dot6{
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			background-color: #33a9fc;
+			position: absolute;
+			top: 0;
+			left: 0;
+			-webkit-animation: bounceOut 3.0s infinite ease-in-out;
+			animation: bounceOut 3.0s infinite ease-in-out;
+		}
+		#preload p{
+			font-size: calc(40rem / 75);
+			color: #666;
+			text-align: center;
+			-webkit-animation: text 1.0s infinite ease-in-out;
+			animation: text 1.0s infinite ease-in-out;
+		}
+		#preload .dot2 {-webkit-animation-delay: -1s;animation-delay: -1s;}
+		#preload .dot3 {-webkit-animation-delay: -2s;animation-delay: -2s;}
+		#preload .dot4 {-webkit-animation-delay: -3s;animation-delay: -3s;}
+		@-webkit-keyframes bounceOut {
+			100% {
+				-webkit-transform: scale(7);
+				transform: scale(7);
+				opacity:0;
+			}
+		}
+		@keyframes bounceOut {
+			100% {
+				-webkit-transform: scale(5);
+				transform: scale(5);
+				opacity:0;
+			}
+		}
+		@-webkit-keyframes text {
+			50% { opacity:0.2;}
+			100%{ opacity:1;}
+		}
+		@keyframes text {
+			50% { opacity:0.2;}
+			100%{ opacity:1;}
+		}
 	</style>
 </head>
 
@@ -32,36 +89,54 @@
 			<div class="dot3"></div>
 			<div class="dot4"></div>
 		</div>
-		<p>加载中...</p>
+		<!-- <p>加载中...</p> -->
 	</div>
 	<div id="root"></div>
 	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="pswp__bg"></div>
-		<div class="pswp__scroll-wrap">
-			<div class="pswp__container">
-				<div class="pswp__item"></div>
-				<div class="pswp__item"></div>
-				<div class="pswp__item"></div>
-			</div>
-			<div class="pswp__ui pswp__ui--hidden">
-				<div class="pswp__top-bar">
-					<div class="pswp__counter"></div>
-					<div class="pswp__preloader">
-						<div class="pswp__preloader__icn">
-							<div class="pswp__preloader__cut">
-								<div class="pswp__preloader__donut"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-					<div class="pswp__share-tooltip"></div>
-				</div>
-				<div class="pswp__caption">
-					<div class="pswp__caption__center"></div>
-				</div>
-			</div>
-		</div>
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+      <!-- Container that holds slides. 
+          PhotoSwipe keeps only 3 of them in the DOM to save memory.
+          Don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <!--  Controls are self-explanatory. Order can be changed. -->
+          <div class="pswp__counter"></div>
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+          <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+          <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div> 
+        </div>
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+        </button>
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+        </button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
 	</div>
 	<script>
 		if(location.pathname !== '/'){

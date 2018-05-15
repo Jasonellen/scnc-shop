@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import './index.scss';
-import {WingBlank, List, Stepper, Carousel, Toast, Modal} from 'antd-mobile';
+import {WingBlank, List, Stepper, Carousel, Toast, Modal, ActivityIndicator} from 'antd-mobile';
 import _Popover from '@/components/Popover'
 import {Link,browserHistory} from 'react-router'
 import Score from '@/components/Score'
-
+import ReactIScroll  from 'react-iscroll'
+import _PhotoSwipe  from 'jasonellen-reactphotoswipe'; 
 //图片
-import heart from 'static/heart.svg'
-import heart1 from 'static/heart1.svg'
+import heart from 'static/heart.svg' 
+import heart1 from 'static/heart1.svg' 
 import location from 'static/location.svg'
-import serve from 'static/serve.svg'
+import serve from 'static/serve.svg' 
 
 export default class Index extends Component {
 	constructor(props) {
@@ -22,34 +23,15 @@ export default class Index extends Component {
 			product_property_id:'', //规格id
 			number:0, //库存数量
 			price:'',
-			market_price:''
+			market_price:'',
+			isOpen:false, 
+			items:[{src: 'http://lorempixel.com/1200/900/sports/1',w: 1200,h: 900,title: ''}], 
+			openIndex:0,
+			animating:true
 		};
 	}
 
-	//监听页面滚动
 	componentDidMount(){
-		setTimeout(()=>{
-			let pingjia = this.refs.pingjia && this.refs.pingjia.offsetTop;
-			let xiangqing = this.refs.xiangqing && this.refs.xiangqing.offsetTop;
-			let tuijian = this.refs.tuijian && this.refs.tuijian.offsetTop;
-			var _this = this
-			this.scroll = new IScroll('#warp',{
-				probeType: 3,
-			})
-			this.scroll.on('scroll', function(){
-				let t = Math.abs(this.y)
-				if(t <= pingjia - 80){
-					_this.setState({activeTab:'shangping'})
-				}else if(t < xiangqing - 80){
-					_this.setState({activeTab:'pingjia'})
-				}else if(t < tuijian - 80){
-					_this.setState({activeTab:'xiangqing'})
-				}else {
-					_this.setState({activeTab:'tuijian'})
-				}
-			});
-		},500)
-
 		//获取详情数据
 		_fetch(url.products(this.props.params.id))
 			.then((data)=>{
@@ -59,6 +41,7 @@ export default class Index extends Component {
 					number:data.product.properties[0].quantity,
 					price:data.product.properties[0].price,
 					market_price:data.product.properties[0].market_price,
+					animating:false
 				})
 			})
 		//获取推荐数据
@@ -66,6 +49,37 @@ export default class Index extends Component {
 			.then((data)=>{
 				this.setState({recommends:data.recommends.products})
 			})
+		setTimeout(()=>{
+			this.Scroll && this.Scroll.refresh()
+		},2000)
+		setTimeout(()=>{
+			this.Scroll &&  this.Scroll.refresh()
+		},4000)
+		setTimeout(()=>{
+			this.Scroll &&  this.Scroll.refresh()
+		},5000)
+	}
+	//监听滚动
+	onScrollEnd = (iscroll)=>{
+		if(!this.pingjia){
+			this.pingjia = this.refs.pingjia && this.refs.pingjia.offsetTop;
+		}
+		if(!this.xiangqing){
+			this.xiangqing = this.refs.xiangqing && this.refs.xiangqing.offsetTop;
+		}
+		if(!this.tuijian){
+			this.tuijian = this.refs.tuijian && this.refs.tuijian.offsetTop;
+		}
+		let t = Math.abs(iscroll.y)
+		if(t <= this.pingjia - 80){
+			this.setState({activeTab:'shangping'})
+		}else if(t < this.xiangqing - 80){
+			this.setState({activeTab:'pingjia'})
+		}else if(t < this.tuijian - 80){
+			this.setState({activeTab:'xiangqing'})
+		}else {
+			this.setState({activeTab:'tuijian'})
+		}
 	}
 	//推荐商品点击
 	recommendsClick=(id)=>{
@@ -73,13 +87,7 @@ export default class Index extends Component {
 		global.location.reload()
 	}
 
-	componentDidUpdate() {
-		setTimeout(()=> {
-			this.scroll && this.scroll.refresh()
-		}, 0)
-	}
 	componentWillUnmount(){
-		this.scroll = null
 		this.setState = function(){
 			return false
 		}
@@ -149,10 +157,30 @@ export default class Index extends Component {
 		})
 		browserHistory.push(`/order/${JSON.stringify(items)}`)
 	}
+	handlePhotoSwiper = (arr,index)=>{
+		let items = []
+		arr.map(function(item){
+			items.push({src:item,w: 750,h: 375,title: ''})
+		})
+		this.setState({isOpen:true,items,openIndex:index})
+	}
+	handleSpecificSwipe = (arr,index)=>{
+		let items = []
+		arr.map(function(item){
+			items.push({src:item.url,w: item.width,h: item.height,title: ''})
+		})
+		this.setState({isOpen:true,items,openIndex:index})
+	}
+	handleScrollTo = (v)=>{
+		this.Scroll.withIScroll(function(iScroll) {
+			iScroll.scrollToElement(v,500,0,-80)
+		})
+	}
 	render() {
 		const {
 			activeTab, product_property_id, recommends,
-			number, price, market_price, quantity,data
+			number, price, market_price, quantity,data,
+			isOpen, items, openIndex, animating
 		} = this.state;
 		const {product, promotion} = this.state.data
 		let list_data = product && product.list_data
@@ -162,26 +190,31 @@ export default class Index extends Component {
 			<div className="goods_detail">
 				<div className="tab">
 					<div className={activeTab == 'shangping' ? 'active' : ''}
-						onClick={()=>this.scroll.scrollToElement('.slider',500,0,-80)}
+						onClick={()=>this.handleScrollTo('.slider')}
 					>
 						<img src={location} alt=""/>商品</div>
 					<div
 						className={activeTab == 'pingjia' ? 'active' : ''}
-						onClick={()=>this.scroll.scrollToElement('.comments',500,0,-80)}
+						onClick={()=>this.handleScrollTo('.comments')}
 					>
 						<img src={location} alt=""/>评价</div>
 					<div
 						className={activeTab == 'xiangqing' ? 'active' : ''}
-						onClick={()=>this.scroll.scrollToElement('.details',500,0,-80)}
+						onClick={()=>this.handleScrollTo('.details')}
 					>
 						<img src={location} alt=""/>详情</div>
 					<div
 						className={activeTab == 'tuijian' ? 'active' : ''}
-						onClick={()=>this.scroll.scrollToElement('.recommends',500,0,-74)}
+						onClick={()=>this.handleScrollTo('.recommends')}
 					>
 						<img src={location} alt=""/>推荐</div>
 				</div>
 				<div id='warp'>
+				<ReactIScroll 
+					ref = {x=>this.Scroll = x}
+					iScroll={IScroll} 
+					onScrollEnd = {this.onScrollEnd}
+					>
 					<div className='box'>
 						<Carousel
 							className="carousel"
@@ -196,7 +229,7 @@ export default class Index extends Component {
 								product
 									?
 									list_data && list_data.map((item, i)=>{
-										return <a key={i}><img src={item} alt="icon" width="100%" height="100%"/></a>
+										return <a key={i} ><img onClick={()=>this.handlePhotoSwiper(list_data,i)} src={item} alt="icon" width="100%" height="100%"/></a>
 									})
 									: <div></div>
 							}
@@ -302,7 +335,7 @@ export default class Index extends Component {
 								<ul className='product_show'>
 									{
 										detail_data.length>0 ? detail_data.map((item, i)=>{
-											return <li key={i}><img src={item} alt=""/></li>
+											return <li key={i}><img onClick={()=>this.handleSpecificSwipe(detail_data, i)} src={item.url} alt=""/></li>
 										}): <p style={{lineHeight:'100px',paddingLeft:'0.4rem'}}>敬请期待</p>
 									}
 								</ul>
@@ -333,6 +366,7 @@ export default class Index extends Component {
 							</div>
 						}
 					</div>
+				</ReactIScroll>
 				</div>
 				<div className="tab_bottom">
 					<_Popover>
@@ -344,6 +378,31 @@ export default class Index extends Component {
 					<div className='last third' onClick={this.addCart}>加入购物车</div>
 					<div className='last' onClick={this.handleSubmit}>立即购买</div>
 				</div>
+
+				<_PhotoSwipe
+					isOpen = {isOpen}
+					items = {items}
+					onClose={()=>this.setState({isOpen:false})}
+					options = {{
+						index:openIndex,
+						bgOpacity:0.7,
+						maxSpreadZoom:5
+					}}
+				/>
+			{/*
+				<_PhotoSwipe
+					isOpen = {isOpen1}
+					items = {items1}
+					onClose={()=>this.setState({isOpen1:false})}
+					options = {{
+						index:openIndex1,
+						bgOpacity:0.7,
+						closeOnVerticalDrag:false,
+						mainClass:'SpecificSwipe',
+						maxSpreadZoom:5,
+					}}
+				/>*/}
+				<ActivityIndicator toast size="large" animating={animating}/>
 			</div>
 		);
 	}

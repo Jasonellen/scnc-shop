@@ -1,0 +1,18 @@
+.PersonSelector{
+	.selectUser{
+		background: #fff;
+	  height: 87px;
+	  color: #588fff;
+	  font-size: 34px;
+	  text-align: center;
+	  line-height: 87px;
+	}
+	.selectUser:after{
+		content: '';
+    width: 0;
+    display: inline-block;
+    border: 0.22667rem solid transparent;
+    border-bottom-color: #588fff;
+    margin-left: 0.26667rem;
+	}
+}

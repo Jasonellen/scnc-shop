@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Score from '@/components/Score'
 import './index.scss'
 import ReactIScroll  from 'react-iscroll'
-import PhotoSwipeGallery from '@/components/_PhotoSwipe';
+import { PhotoSwipeGallery }  from 'jasonellen-reactphotoswipe';
 
 export default class Evaluation extends Component {
 	constructor(props){
@@ -49,7 +49,7 @@ export default class Evaluation extends Component {
 											<div className='title'>
 												<span className='box'>
 													<span className='name'>{(!item.anonymous && item.user_name) || '匿名用户'}</span>
-													<i>{item.created_at && item.created_at.slice(0,10)}</i>
+													<i>&nbsp;&nbsp;{item.created_at && item.created_at.slice(0,10)}</i>
 												</span>
 												<Score score={score || '0'} width = {30/75+"rem"} margin={0.06666667+'rem'}/>
 											</div>

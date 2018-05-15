@@ -2,21 +2,8 @@ import { handleActions } from 'redux-actions';
 
 let initialState = {
 	showTab: 0, //儿童活力
-	"categories": [
-		{
-			"name": "儿童活力",
-			"sort": 1
-		}
-	],
-	'products':[
-		{
-			"id": 5,
-			"name": "name",
-			"purchases_count": 0,
-			"price": "1.0",
-			"image_url": "/static/goods.jpg"
-		}
-	]
+	"categories": [],
+	'products':[]
 }
 const _sort = handleActions({
 	changeShowTab: (state, action) => ({

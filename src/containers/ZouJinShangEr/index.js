@@ -3,24 +3,21 @@ import { Tabs, WhiteSpace} from 'antd-mobile';
 import './index.scss'
 
 import ReactIScroll  from 'react-iscroll'
-import {_PhotoSwipe} from '@/components/_PhotoSwipe';
+import _PhotoSwipe  from 'jasonellen-reactphotoswipe';
 
 export default  class ZouJinShangEr extends Component {
 	state={
 		cover:null,
 		detail:null,
-		items:[
-			{src: 'http://lorempixel.com/1200/900/sports/1',w:750,h:750},
-		],
+		items:[],
 		isOpen:false,
-		iscroll:''
 	}
 	componentDidMount(){
 		this.get_subjects();
 		this.getGuanyushanger();
 		setTimeout(()=>{
-			this.setState({iscroll:IScroll})
-		},500)
+			this.initPhotoSwipe()
+		},700)
 	}
 
 	get_subjects = ()=>{
@@ -43,27 +40,33 @@ export default  class ZouJinShangEr extends Component {
 		let _this = this;
 		let img = this.refs.about.getElementsByTagName("img");
 		for (var i=0;i<img.length;i++){
-			img[i].onclick = (e)=>{
+			img[i].src = img[i].src.replace('localhost:8081','scnc.mdslife.com')
+			img[i].onload = function(){
+				_this.Scroll.refresh()
+			}
+			img[i].onclick = function(e){
 				_this.setState({
 					isOpen:true,
-					items:[{src: e.target.getAttribute("src"),w:750,h:750}]
+					items:[{src: e.target.getAttribute("src"),w:this.offsetWidth,h:this.offsetHeight}]
 				})
 			}
 		}
+		this.setState({}) // 更新页面
 	}
 	onTabChange=()=>{
 		setTimeout(()=>{
-			this.setState({iscroll:IScroll})
-		},500)
+			this.initPhotoSwipe()
+		},700)
 	}
 	handleClose = () => {
 		this.setState({
 			isOpen:false
 		})
 	}
+
 	render() {
 		return (
-			<div className="ZouJinShangEr">
+			<div className="ZouJinShangEr" ref="about">
 				{ this.state.cover && <img src={this.state.cover} className='headimg' alt="上儿"/> }
 				{
 					this.state.detail &&
@@ -77,8 +80,8 @@ export default  class ZouJinShangEr extends Component {
 								return (<Tabs.TabPane tab={item.title} key={index+""}>
 									<WhiteSpace />
 									<div className="warp">
-										<ReactIScroll iScroll={this.state.iscroll || IScroll}>
-											<div className='about' ref="about" dangerouslySetInnerHTML={{__html: item.body }}></div>
+										<ReactIScroll iScroll={IScroll} ref = {x=>this.Scroll = x}>
+											<div className='about'  dangerouslySetInnerHTML={{__html: item.body }}></div>
 										</ReactIScroll>
 									</div>
 								</Tabs.TabPane>)

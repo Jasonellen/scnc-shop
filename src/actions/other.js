@@ -2,7 +2,8 @@ import { createActions } from 'redux-actions';
 
 export const {
 	changeProduct, changeBankCards, changeUser, changeBalance,
-	changeToken, changeCode, changeChatInfo, changeExpertChatInfo
+	changeToken, changeCode, changeChatInfo, changeExpertChatInfo,
+	renameModal
 } = createActions(
 		'changeBankCards',
 		'changeUser',
@@ -10,4 +11,5 @@ export const {
 		'changeCode',
 		'changeChatInfo',
 		'changeExpertChatInfo',
+		'renameModal'
 	)

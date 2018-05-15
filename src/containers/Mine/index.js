@@ -14,7 +14,7 @@ import shouhou from 'static/tuikuan.svg'
 import wodeyingyangshi from 'static/wodeyingyangshi.png'
 import shouhuodizhi from 'static/shouhuodizhi.png'
 import Integral from 'static/Integral.png'
-
+import edit from 'static/edit.svg'
 import putonghuiyuan from 'static/putonghuiyuan.png'
 import yinpaihuiyuan from 'static/yinpaihuiyuan.png'
 import jingpaihuiyuan from 'static/jingpaihuiyuan.png'
@@ -23,41 +23,13 @@ import zuanshihuiyuan from 'static/zuanshihuiyuan.png'
 @connect(
 	state => {
 		return {
-			user:state.other.user,
 			chatInfo:state.other.chatInfo
 		}
 	},
 	dispatch => bindActionCreators(otherAction, dispatch)
 )
 export default class Mine extends Component {
-	constructor(props){
-		super(props)
-		this.state={}
-	}
-	componentDidMount() {
-		//获取我的订单
-		_fetch(url.myOrder,{order_status:1})
-			.then(data=>{
-				let pendingData = data.orders.filter(function(item){
-					return item.aasm_state == 'pending'
-				})
-				let paidData = data.orders.filter(function(item){
-					return item.aasm_state == 'paid'
-				})
-				let shippingData = data.orders.filter(function(item){
-					return item.aasm_state == 'shipping'
-				})
-				let completedData = data.orders.filter(function(item){
-					return item.aasm_state == 'completed'
-				})
-				this.setState({
-					pendingCount:pendingData.length,
-					paidCount:paidData.length,
-					shippingCount:shippingData.length,
-					completedCount:completedData.length,
-				})
-			})
-	}
+
 	getChat = ()=>{
 		// //获取聊天室信息
 		const {chatInfo} = this.props
@@ -75,6 +47,7 @@ export default class Mine extends Component {
 				})
 		}
 	}
+
 	componentWillUnmount(){
 		//重写组件的setState方法，直接返回空
 		this.setState = ()=>{
@@ -82,8 +55,7 @@ export default class Mine extends Component {
 		};
 	}
 	render() {
-		const {user} = this.props
-		const { pendingCount,paidCount,shippingCount,completedCount } = this.state
+		const { pendingCount,paidCount,shippingCount,completedCount,user } = this.props
 		let img=''
 		switch(user.level){
 		case 1:
@@ -106,7 +78,7 @@ export default class Mine extends Component {
 						<div className="head">
 							<img src={user.headimageurl || "/static/morentouxiang.png"} alt="" className='head_pic'/>
 							<img src={img} alt="" className='badge'/>
-							<p>{user.name}</p>
+							<p onClick={()=>this.props.renameModal({modal:true})}>{user.nick_name || user.name} <img src={edit} alt=""/></p>
 						</div>
 						{
 							user && user.mobile

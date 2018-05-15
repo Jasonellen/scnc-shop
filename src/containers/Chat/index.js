@@ -16,7 +16,11 @@ import chatPic from 'static/chatPic.svg'
 import serve1 from 'static/Integral.png'
 import del from 'static/delete.svg'
 import iptimg from 'static/ipt.jpg'
-
+import sing from "static/sing.svg"
+import keyinput from "static/keyinput.svg"
+import sound from "static/sound.svg"
+import voice from "static/voice.svg"
+import voice1 from "static/voice1.svg"
 
 @connect(
 	state => {
@@ -42,60 +46,47 @@ export default class Chat extends Component {
 			switchChecked:props.location && props.location.state && props.location.state.chat_limited ? false : true,
 			modal:false,
 			products:[],
-			page:1,
+			page:0,
 			loadingShow:false,
 			src:'',
 			isOpen:false,
-			OS:1,
+			OS:'',
+			voiceShow:false, //话筒显示
+			voiceSelect:false, //话筒图标点击
+			voiceText:'按住说话',
+			scrollOnOff:true,//是否开启滚动
 		}
 	}
 	componentDidMount(){
-		console.log(this.props.user,'===========')
 		//判断IOS 系统版本
 		var OS = window.navigator.userAgent.match(/\d+_\d[_\d]?/g);
 		if(OS){
 			this.setState({OS:OS[0].split('_')[0]})
 		}
-		setTimeout(()=>{
-			let _this = this
-			this.scroll = new IScroll('.warp',{probeType: 2})
-			setTimeout(()=>{
-				this.scroll.scrollToElement(this.refs.scrollLine,300,null,null,{
-					style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-					fn: function (k) {
-						return k * ( 2 - k );
-					}
-				})
-			},0)
-			this.scroll.on('scroll', function(){
-				if(this.y>0){
-					_this.setState({loadingShow:true},()=>{
-						clearTimeout(_this.timer)
-						_this.timer = setTimeout(()=>{
-							_this.setState({page:_this.state.page+1},()=>{
-								_this.getMessage(_this.state.page)
-							})
-						},1000)
-					})
-				}
-			});
-		},500)
+		this.getGoodsData()
+		this.getChatInfos()
+	}
 
-		//获取商品列表
+	//获取商品列表
+	getGoodsData = ()=>{
 		_fetch(url.home)
 			.then(data=> {
 				this.setState({
 					products: data.products,
 				})
 			})
-
+	}
+	//获取聊天室信息
+	getChatInfos=()=>{
 		const {LinkIn} = this.state
 		//获取聊天室
 		const from_id = LinkIn.from_id || this.props.user.id  //获取聊天室的 from_id 和 发送消息的不一样
+		const to_id = LinkIn.to_id || ''
 		console.log('当前用户id:',this.props.user.id)
 		console.log('获取聊天室使用的from_id:',from_id)
-		//获取聊天室信息
-		_fetch(url.get_conversation, {from_id})
+		console.log('获取聊天室使用的to_id:',to_id)
+
+		_fetch(url.get_conversation, {from_id,to_id})
 			.then(data=>{
 				if(data.success){
 					this.props.changeChatInfo(data)
@@ -105,7 +96,7 @@ export default class Chat extends Component {
 					},()=>{
 						this.startSocket()
 						//获取历史记录
-						this.getMessage(1)
+						this.getMessage()
 					})
 				}else{
 					Modal.alert('',data.desc)
@@ -133,8 +124,18 @@ export default class Chat extends Component {
 
 		//socket建立连接 并监听消息
 		this.socket.connect_server = ()=>{
+			let socketUrl
+			if(location.host == 'm.scnc-sh.com')socketUrl = 'wss://m.scnc-sh.com/cable';
+			if(location.host == 'scnc.mdslife.com')socketUrl = 'ws://scnc.mdslife.com/cable';
+			if(process.env.NODE_ENV == 'development'){
+				if(_dev_api){
+					socketUrl = 'ws://scnc.mdslife.com/cable'
+				}else{
+					socketUrl = 'wss://m.scnc-sh.com/cable'
+				}
+			}
 			// const WebSocket = require('ws');  package安装后就可以使用了，不可以再引用，不然报错...不安装接收不到广播消息..
-			this.socket.ws = new WebSocket('wss://m.scnc-sh.com/cable', ["actioncable-v1-json", "actioncable-unsupported"]);
+			this.socket.ws = new WebSocket(socketUrl, ["actioncable-v1-json", "actioncable-unsupported"]);
 			this.socket.param = {channel: "ChatChannel", conversation_id: conversation_id};
 			this.socket.ws.onopen =()=>{
 				let data = {
@@ -147,37 +148,38 @@ export default class Chat extends Component {
 				if(JSON.parse(event.data).type != 'ping' && JSON.parse(event.data).message){
 					const arr = JSON.parse(JSON.parse(event.data).message.message)
 					const totalMsg = this.state.totalMsg.concat(arr)
-					this.setState({totalMsg},()=>{
-						setTimeout(()=>{
-							this.scroll && this.scroll.scrollToElement(this.refs.scrollLine)
-						},0)
-					})
-					console.log(event)
+					this.setState({totalMsg,scrollOnOff:true,})
+					console.log('接受聊天室推送的消息：', event)
 				}
 			};
 		}
-
 		this.socket.connect_server();
 	}
 	//获取历史消息
-	getMessage = (page)=>{
-		const {conversation_id} = this.state
-		_fetch(url.get_message,{
-			conversation_id,
-			page
-		})
-			.then(data=>{
-				this.setState({loadingShow:false})
-				if(data.length>0){
-					this.setState({totalMsg:data.concat(this.state.totalMsg)})
-				}else{
-					this.state.totalMsg.length>0 && Toast.info('没有更多数据了',1)
-				}
+	getMessage = ()=>{
+		this.setState({loadingShow:true,page:this.state.page+1},()=>{
+			const {conversation_id,page} = this.state
+			_fetch(url.get_message,{
+				conversation_id,
+				page
 			})
+				.then(data=>{
+					this.setState({loadingShow:false})
+					if(data.length>0){
+						this.setState({totalMsg:data.concat(this.state.totalMsg)},()=>{
+							this.setState({scrollOnOff:false})
+						})
+					}else{
+						this.state.totalMsg.length>0 && Toast.info('没有更多数据了',1)
+					}
+				})
+		})
 	}
 	//展开面板
 	handlePan=(value)=>{
-		this.setState({picShow:value})
+		this.setState({picShow:value},()=>{
+			document.getElementById('Chat').scrollTop = document.getElementById('Chat').scrollHeight;
+		})
 	}
 	//输入文本
 	textChange=(e)=>{
@@ -207,10 +209,14 @@ export default class Chat extends Component {
 	//聚焦
 	handleFocus = ()=>{
 		setTimeout(()=>{
-			if(this.state.OS < 11){
-				this.refs.ipt.scrollIntoView(true)
+			if(this.state.OS && this.state.OS < 11){
+				this.refs.ipt.scrollIntoView(true);
 				this.refs.ipt.scrollIntoViewIfNeeded();
-				document.body.scrollTop = 10000
+			}else if(this.state.OS){
+				return;
+			} else {
+				this.refs.ipt.scrollIntoView(true);
+				document.body.scrollTop = document.body.scrollHeight;
 			}
 		},400)
 	}
@@ -244,11 +250,7 @@ export default class Chat extends Component {
 		this.socket.sendmessage(`useGoodsId/${item.id}`, 0)
 		this.setState({picShow:false,modal:false})
 	}
-	componentDidUpdate(){
-		setTimeout(()=>{
-			this.scroll && this.scroll.refresh()
-		},0)
-	}
+	//图片放大
 	imgView = (src)=>{
 		this.setState({
 			isOpen:true,
@@ -258,10 +260,128 @@ export default class Chat extends Component {
 	handleClose = ()=>{
 		this.setState({isOpen:false})
 	}
+	//切换语言输入
+	handleVoice = ()=>{
+		this.setState({voiceSelect:!this.state.voiceSelect})
+	}
+	//按下说话
+	handleTouchStart = ()=>{
+		document.oncontextmenu = function(event){
+			event.returnValue = false;
+		};
+
+		var _this = this
+		this.setState({voiceText:'松开发送',voiceShow:true},()=>{
+			wx.startRecord({
+				cancel: function () {
+					alert('用户拒绝授权录音');
+				}
+			});
+			this.recordStartTime = new Date().getTime()
+		})
+
+		//监听录音自动停止
+		wx.onVoiceRecordEnd({
+			complete: function (res) {
+				this.setState({voiceText:'按住说话',voiceShow:false},()=>{
+				//上传语音
+					wx.uploadVoice({
+						localId:res.localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+						isShowProgressTips: 0, // 默认为1，显示进度提示
+						success: function (re) {
+							// console.log(res.serverId,'已上传wx服务器')
+							_fetch(url.download,{server_id:re.serverId})
+								.then(data=>{
+									if(data){
+										_this.socket.sendmessage(re.serverId, 2)
+									}
+								})
+						}
+					});
+				})
+			}
+		});
+	}
+	//松开发送
+	handleTouchEnd = ()=>{
+		var _this = this
+		this.state.voiceShow && this.setState({voiceText:'按住说话',voiceShow:false},()=>{
+			this.recordEndTime = new Date().getTime()
+			if(this.recordEndTime - this.recordStartTime > 1000){
+				wx.stopRecord({
+					success: function (res) {
+						// console.log('录音id:',localId)
+						var localId = res.localId;
+						//播放语音
+						//wx.playVoice({
+						//   localId // 需要播放的音频的本地ID，由stopRecord接口获得
+						// });
+						//上传语音
+						wx.uploadVoice({
+							localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+							isShowProgressTips: 0, // 默认为1，显示进度提示
+							success: function (re) {
+								_fetch(url.download,{server_id:re.serverId})
+									.then(data=>{
+										if(data){
+											console.log('语音接口调用成功：',data)
+											_this.socket.sendmessage(re.serverId, 2)
+										}
+									})
+							}
+						});
+					}
+				});
+			}else{
+				Toast.info('录音时间太短！',1)
+			}
+		})
+	}
+	//播放video
+	playVideo = (e)=>{
+		var audio = ''
+		var svg = ''
+		// //如果点击的是图片
+		if(e.target.tagName == 'IMG'){
+			audio = e.target.previousSibling
+			svg = e.target
+		}else{
+			audio = e.target.childNodes[0]
+			svg = e.target.childNodes[1]
+		}
+		audio.load()
+		audio.play()
+		svg.src=voice1
+		audio.onended = function() {
+			svg.src=voice
+		};
+	}
+
+	onRefresh = (x)=>{
+		const { maxScrollY, scrollOnOff} = this.state
+		if((maxScrollY !== x.maxScrollY) && scrollOnOff){
+			this.setState({maxScrollY:x.maxScrollY})
+			this.refs.iScroll.withIScroll(function(iScroll) {
+				iScroll.scrollTo(0,x.maxScrollY, 400, {
+					style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+					fn: function (k) {
+						return k * ( 2 - k );
+					}
+				})
+			})
+		}
+	}
+	onScroll = (iscroll)=>{
+		clearTimeout(this.timer)
+		this.timer = setTimeout(()=>{
+			if(iscroll.y >= 0){
+				this.getMessage()
+			}
+		},300)
+	}
+
 	componentWillUnmount(){
-		this.scroll = null
 		this.socket.ws.close()
-		this.socket = null;
 
 		//标记他人消息为已读
 		const {conversation_id } = this.state
@@ -277,15 +397,19 @@ export default class Chat extends Component {
 	}
 	render() {
 		const {
-			picShow, text, totalMsg,
-			LinkIn, switchChecked,
+			picShow, text, totalMsg, switchChecked,
 			modal,products, loadingShow, isOpen, src
 		} = this.state
 		const selfHeadImg = this.props.user.headimageurl
 		const {user_type} = this.props.user
 		const  QRCode= this.props.QRCode
-		const  otherHeadImg= LinkIn.headimageurl || this.props.chatInfo.headimageurl
-
+		let  otherHeadImg= ''
+		if(user_type == '0'){
+			otherHeadImg= this.props.chatInfo.headimageurl
+		}else{
+			otherHeadImg= this.props.chatInfo.from_headimageurl
+		}
+		const {voiceShow,voiceText,voiceSelect} = this.state
 		return (
 			<div id="Chat">
 				<div className="box" onClick={()=>this.handlePan(false)}>
@@ -294,7 +418,19 @@ export default class Chat extends Component {
 							<img src={src} alt="" onClick={this.handleClose}/>
 						</ReactIScroll>
 					</div>
+					{
+						voiceShow && <div className="voiceModal">
+													<img src={sing} alt=""/>
+												</div>
+					}
 					<div className="warp">
+					<ReactIScroll
+						ref="iScroll"
+						iScroll = {IScroll}
+						onRefresh = {this.onRefresh}
+						onScroll={this.onScroll}
+						options={{probeType:2,}}
+					>
 						<ul>
 							{loadingShow && <ActivityIndicator />}
 							{/*<li className='time'>今天13:42</li>*/}
@@ -313,7 +449,7 @@ export default class Chat extends Component {
 																<div className="head pull-right">
 																	<img src={user_type == '1' ? 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=983249201,1830044883&fm=27&gp=0.jpg' : selfHeadImg} alt=""/>
 																</div>
-																<div className="text pull-right" id="goodslist">
+																<div className="text pull-right" id="goodslist_right">
 																	<div className="clearfix">
 																		<div className="pull-left">
 																			<img src={data.list_img} alt="" />
@@ -340,7 +476,7 @@ export default class Chat extends Component {
 													</li>
 												)
 											}
-										}else{
+										}else if(item.msg_type == 1){
 											return (
 												<li className='right clearfix' key={i}>
 													<div className="head pull-right">
@@ -348,6 +484,19 @@ export default class Chat extends Component {
 													</div>
 													<div className="text pull-right">
 														<img src={item.content} alt="" onClick={()=>this.imgView(item.content)}/>
+													</div>
+												</li>
+											)
+										}else{
+											return(
+												<li className='right_text  voice_send clearfix' key={i}>
+													<div className="head pull-right">
+														<img src={user_type == '1' ? 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=983249201,1830044883&fm=27&gp=0.jpg' : selfHeadImg} alt="" />
+													</div>
+													<div className="text pull-right" onClick={this.playVideo}>
+														<audio src={item.content}></audio>
+														<img src={voice} alt="" className='voice_send_img'/>
+														<span></span>
 													</div>
 												</li>
 											)
@@ -392,7 +541,7 @@ export default class Chat extends Component {
 													</li>
 												)
 											}
-										}else{
+										}else if(item.msg_type == 1){
 											return (
 												<li className='left clearfix' key={i}>
 													<div className="head pull-left">
@@ -403,17 +552,42 @@ export default class Chat extends Component {
 													</div>
 												</li>
 											)
+										}else{
+											return (
+												<li className='left voice_send clearfix' key={i}>
+													<div className="head pull-left">
+														<img src={user_type == '1' ? 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=983249201,1830044883&fm=27&gp=0.jpg' : selfHeadImg} alt="" />
+													</div>
+													<div className="text pull-left" onClick={this.playVideo}>
+														<audio src={item.content}></audio>
+														<img src={voice} alt="" className='voice_send_img'/>
+														<span></span>
+													</div>
+												</li>
+											)
 										}
 									}
 								})
 							}
+							
 						</ul>
-						<div className="scrollLine" ref='scrollLine'></div>
+					</ReactIScroll>
 					</div>
 				</div>
 				<div className="bottom">
 					<div className="head" ref = 'ipt'>
-						<textarea  value={text} onChange={(e)=>this.textChange(e)} ref='textarea' onFocus={this.handleFocus} onBlur = {this.handleBlur}/>
+						<img src={voiceSelect ? keyinput : sound} alt="" onClick={this.handleVoice}/>
+						{
+							voiceSelect && <textarea
+															className='voice_text'
+															disabled
+															value={voiceText}
+															onTouchStart={this.handleTouchStart}
+															onTouchEnd={this.handleTouchEnd}
+															style={{background:voiceText == '松开发送' && '#ddd'}}
+														/>
+						}
+						{!voiceSelect && <textarea  value={text} onChange={(e)=>this.textChange(e)} ref='textarea' onClick={this.handleFocus} onFocus={this.handleFocus} />}
 						<span onClick={this.sendMsg}>发送</span>
 						<img src={chatAdd} alt="" onClick={()=>this.handlePan(true)}/>
 					</div>
@@ -456,6 +630,7 @@ export default class Chat extends Component {
 									<li className='pull-left'>
 										<div>
 											<Switch
+												platform="ios"
 												checked={switchChecked}
 												onChange={this.handleChecked}
 											/>

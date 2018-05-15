@@ -14,7 +14,17 @@
     height: 426px;
     background-size: cover;
     overflow: hidden;
-    div{
+    position: relative;
+    .pull-right{
+      color: #fff;
+      font-size: 28px;
+      margin: 20px;
+    }
+    .logo{
+      width: 48px;
+      margin-right: 10px;
+    }
+    .box{
       position: relative;
       border:22px solid rgba(255,255,255,.34);
       margin:88px auto;
@@ -49,11 +59,20 @@
         @include font(40px);
       }
     }
+    .has{
+      position: absolute;
+      bottom: 30px;
+      text-align: center;
+      color: #fff;
+      font-size: 30px;
+      width: 100%;
+    }
 
   }
   #list{
     height: calc(100vh - 515px);
     overflow: hidden;
+    background: #fff;
   }
   ul{
 
@@ -131,5 +150,8 @@
     .am-list-arrow{
       display: none;
     }
+  }
+  .blank{
+    height: auto;
   }
 }

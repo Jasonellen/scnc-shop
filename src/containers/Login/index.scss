@@ -1,0 +1,44 @@
+.loginModal{
+	padding: 20px;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 998;
+	.head{
+		width: 300px;
+		display: block;
+		margin:50px auto;
+	}
+	.am-list-item .am-input-control input{
+		font-size: 28px;
+	}
+	.am-checkbox-agree .am-checkbox-agree-label{
+		margin-top: 3px;
+    font-size: 28px;
+    color: #666;
+	}
+	.am-button{
+		margin:30px;
+	}
+	.btm{
+		margin-top: 50px;
+		text-align: center;
+		font-size: 28px;
+		color: #999;
+		span{
+			font-size: 28px;
+			color: #999;
+			padding:0 20px;
+		}
+		span.signup{
+			color: #588fff;
+		}
+	}
+	.submit{
+		margin-top: 100px;
+	}
+}

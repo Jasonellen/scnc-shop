@@ -35,7 +35,11 @@
 				text-align: center;
 				@include font(24px);
 				width: 300%;
-    			margin-left: -100%;
+  			margin-left: -100%;
+  			img{
+  				width: 24px;
+    			vertical-align: bottom;
+  			}
 			}
 		}
 		.bind{

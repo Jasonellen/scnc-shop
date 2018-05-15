@@ -7,6 +7,8 @@ let initialState = {
 	QRCode:'', //二维码
 	chatInfo:{}, //聊天室信息
 	expertChatInfo:{}, //聊天室信息
+	rename_modal:false,
+	rename_user_id:''
 }
 const other = handleActions({
 
@@ -33,7 +35,12 @@ const other = handleActions({
 	changeExpertChatInfo: (state, action) => ({
 		...state,
 		expertChatInfo: action.payload
-	})
+	}),
+	renameModal: (state, action) => ({
+		...state,
+		rename_modal: action.payload.modal,
+		rename_user_id: action.payload.user_id,
+	}),
 
 }, initialState);
 

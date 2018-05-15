@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions';
 
-export const { changeName, changeCard, changeCardNumber, changeBankData } = createActions(
+export const { changeBankName, changeCard, changeCardNumber, changeBankData } = createActions(
 	'changeBankName',
 	'changeCard',
 	'changeCardNumber',

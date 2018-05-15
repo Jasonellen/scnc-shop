@@ -35,7 +35,11 @@
 				text-align: center;
 				@include font(24px);
 				width: 300%;
-    			margin-left: -100%;
+  			margin-left: -100%;
+  			img{
+  				width: 24px;
+    			vertical-align: bottom;
+  			}
 			}
 		}
 		.bind{
@@ -113,5 +117,13 @@
 		.am-list-content{
 			@include font(30px);
 		}
+	}
+	.exit{
+		font-size: 30px;
+    text-align: center;
+    line-height: 2.5;
+    background: #fff;
+    margin-top: 20px;
+    color: #588fff;
 	}
 }

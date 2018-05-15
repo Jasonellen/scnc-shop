@@ -3,7 +3,6 @@ import {Router, Route, browserHistory, IndexRoute} from 'react-router';
 import { bindActionCreators } from 'redux'
 import {connect} from 'react-redux';
 import * as otherAction from '@/actions/other';
-import wxShare from '@/service/wxShare'
 
 const TabBar = (location, cb) => {require.ensure([], require => {cb(null, require('~/TabBar').default)})}; //主页Tab
 const GoodsDetail = (location, cb) => {require.ensure([], require => {cb(null, require('~/GoodsDetail').default)})}; //商品详情
@@ -40,11 +39,11 @@ const MyBonus = (location, cb) => {require.ensure([], require => {cb(null, requi
 const RecommendBonus = (location, cb) => {require.ensure([], require => {cb(null, require('~/RecommendBonus').default)})};//推荐积分
 const MyQRCode = (location, cb) => {require.ensure([], require => {cb(null, require('~/MyQRCode').default)})};//我的二维码
 const RecommendOrder = (location, cb) => {require.ensure([], require => {cb(null, require('~/RecommendOrder').default)})};//推荐订单
+const RecommendOrderRepresent = (location, cb) => {require.ensure([], require => {cb(null, require('~/RecommendOrder/RecommendOrderRepresent').default)})};//推荐订单-代表
 const MyCustomer = (location, cb) => {require.ensure([], require => {cb(null, require('~/MyCustomer').default)})};//我的客户
 const Chat = (location, cb) => {require.ensure([], require => {cb(null, require('~/Chat').default)})};//聊天室
 const DealSuccess = (location, cb) => {require.ensure([], require => {cb(null, require('~/DealSuccess').default)})};//交易成功页面
-const ZhuanLan = (location, cb) => {require.ensure([], require => {cb(null, require('~/ZhuanLan').default)})};//首页专栏
-const ZhuanLanDetail = (location, cb) => {require.ensure([], require => {cb(null, require('~/ZhuanLanDetail').default)})};//首页专栏详情页
+const ArticleDetail = (location, cb) => {require.ensure([], require => {cb(null, require('~/ArticleDetail').default)})};//首页专栏详情页
 const ZouJinShangEr = (location, cb) => {require.ensure([], require => {cb(null, require('~/ZouJinShangEr').default)})};//首页走进上儿
 const ShangErYanJiuYuan = (location, cb) => {require.ensure([], require => {cb(null, require('~/ShangErYanJiuYuan').default)})};//上儿研究院
 const ShangErZhuanJia = (location, cb) => {require.ensure([], require => {cb(null, require('~/ShangErZhuanJia').default)})};// 上儿专家委员会
@@ -66,43 +65,36 @@ const goChat = (location, cb) => {require.ensure([], require => {cb(null, requir
 const IntegralMall = (location, cb) => {require.ensure([], require => {cb(null, require('~/IntegralMall').default)})};//积分商城首页
 const FriendsHelp = (location, cb) => {require.ensure([], require => {cb(null, require('~/FriendsHelp').default)})};//好友助力
 const FriendsHelpShare = (location, cb) => {require.ensure([], require => {cb(null, require('~/FriendsHelpShare').default)})};//好友助力分享页
+const ZhuLiRank = (location, cb) => {require.ensure([], require => {cb(null, require('~/ZhuLiRank').default)})};//助力排行榜
+const GuanZhuPage = (location, cb) => {require.ensure([], require => {cb(null, require('~/GuanZhuPage').default)})};//关注页
+const ExchangeRecord = (location, cb) => {require.ensure([], require => {cb(null, require('~/ExchangeRecord').default)})};//兑换记录
+const MallDetail = (location, cb) => {require.ensure([], require => {cb(null, require('~/MallDetail').default)})};//商品详情
+const DuiHuanPage = (location, cb) => {require.ensure([], require => {cb(null, require('~/DuiHuanPage').default)})};//兑换成功页
 
+const Login = (location, cb) => {require.ensure([], require => {cb(null, require('~/Login').default)})};
+const Forget = (location, cb) => {require.ensure([], require => {cb(null, require('~/Forget').default)})};
+const Signup = (location, cb) => {require.ensure([], require => {cb(null, require('~/Signup').default)})};
+const SignupNext = (location, cb) => {require.ensure([], require => {cb(null, require('~/Signup/next').default)})};
 
 class Routers extends Component {
 
 	componentDidMount(){
-			//获取二维码
-		_fetch(url.get_qrcode_img)
-			.then(data =>{
-				this.props.changeCode(data.img_url)
-			})
 		// 获取用户信息
 		_fetch(url.userInfo)
 			.then(data =>{
 				this.props.changeUser(data)
 			})
 	}
-	setTitleAndShare = (title,shareOption)=>{
+	setTitleAndShare = (title)=>{
 		document.title = title
-		var ua = window.navigator.userAgent.toLowerCase();
-		if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-			if(shareOption){
-				wxShare(); //微信分享
-			}else{
-				wx.hideMenuItems({
-					menuList: ["menuItem:share:appMessage","menuItem:share:timeline","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone"]
-				});
-			}
-		}
-		
 	}
 	render() {
 
 		return (
 			<Router history={browserHistory}>
-				<Route path='/' getComponent={TabBar} onEnter={()=>this.setTitleAndShare('商城首页',1)}></Route>
-				<Route path='/gerenzhongxin' getComponent={TabBar} onEnter={()=>this.setTitleAndShare('个人中心',1)}></Route>
-				<Route path='/GoodsDetail/:id' getComponent={GoodsDetail} onEnter={()=>this.setTitleAndShare('商品详情',1)}></Route>
+				<Route path='/' getComponent={TabBar} onEnter={()=>this.setTitleAndShare('商城首页')}></Route>
+				<Route path='/gerenzhongxin' getComponent={TabBar} onEnter={()=>this.setTitleAndShare('个人中心')}></Route>
+				<Route path='/GoodsDetail/:id' getComponent={GoodsDetail} onEnter={()=>this.setTitleAndShare('商品详情')}></Route>
 				<Route path='/Order/:items' getComponent={Order} onEnter={()=>this.setTitleAndShare('提交订单')}></Route>
 				<Route path='/AddAddress' getComponent={AddAddress} onEnter={()=>this.setTitleAndShare('新增地址')}></Route>
 				<Route path='/ManageAddress' getComponent={ManageAddress} onEnter={()=>this.setTitleAndShare('管理地址')}></Route>
@@ -141,18 +133,22 @@ class Routers extends Component {
 				<Route path='/RecommendBonus' getComponent={RecommendBonus} onEnter={()=>this.setTitleAndShare('推荐积分')}></Route>
 				<Route path='/MyQRCode' getComponent={MyQRCode} onEnter={()=>this.setTitleAndShare('我的二维码')}></Route>
 				<Route path='/RecommendOrder' getComponent={RecommendOrder} onEnter={()=>this.setTitleAndShare('推荐订单')}></Route>
+				<Route path='/RecommendOrderRepresent' getComponent={RecommendOrderRepresent} onEnter={()=>this.setTitleAndShare('推荐订单')}></Route>
 				<Route path='/MyCustomer'>
 					<IndexRoute  getComponent={MyCustomer} onEnter={()=>this.setTitleAndShare('我的客户')}></IndexRoute>
 					<Route path='Chat' getComponent={Chat} onEnter={()=>this.setTitleAndShare('聊天室')}></Route>
 				</Route>
 				<Route path='/DealSuccess' getComponent={DealSuccess} onEnter={()=>this.setTitleAndShare('交易成功')}></Route>
-				<Route path='/ZhuanLan/:id' getComponent={ZhuanLan} onEnter={()=>this.setTitleAndShare('专栏')}></Route>
-				<Route path='/ZhuanLanDetail/:id' getComponent={ZhuanLanDetail} onEnter={()=>this.setTitleAndShare('文章详情')}></Route>
+
 				<Route path='/ZouJinShangEr' getComponent={ZouJinShangEr} onEnter={()=>this.setTitleAndShare('走进上儿')}></Route>
 				<Route path='/ShangErYanJiuYuan' getComponent={ShangErYanJiuYuan} onEnter={()=>this.setTitleAndShare('上儿研究院')}></Route>
 				<Route path='/ShangErZhuanJia' getComponent={ShangErZhuanJia} onEnter={()=>this.setTitleAndShare('上儿专家')}></Route>
 				<Route path='/SuZuFeiXueYuan' getComponent={SuZuFeiXueYuan} onEnter={()=>this.setTitleAndShare('苏祖斐学院')}></Route>
-				<Route path='/KePuJY' getComponent={KePuJY} onEnter={()=>this.setTitleAndShare('科普教育')}></Route>
+
+				<Route path='/KePuJY' getComponent={KePuJY} onEnter={()=>this.setTitleAndShare('科普教育')}>
+					<Route path=':id' getComponent={ArticleDetail} onEnter={()=>this.setTitleAndShare('文章详情')}></Route>
+				</Route>
+
 				<Route path='/Drawback' getComponent={Drawback} onEnter={()=>this.setTitleAndShare('退货')}></Route>
 				<Route path='/DrawbackDetail/:refund_id' getComponent={DrawbackDetail} onEnter={()=>this.setTitleAndShare('退货详情')}></Route>
 				<Route path='/ApplyBackLogisticsEdit' getComponent={ApplyBackLogisticsEdit} onEnter={()=>this.setTitleAndShare('编辑物流')}></Route>
@@ -167,7 +163,18 @@ class Routers extends Component {
 				<Route path='/ComingSoon' getComponent={ComingSoon} onEnter={()=>this.setTitleAndShare('敬请期待')}></Route>
 				<Route path='/IntegralMall' getComponent={IntegralMall} onEnter={()=>this.setTitleAndShare('积分商城')}></Route>
 				<Route path='/FriendsHelp' getComponent={FriendsHelp} onEnter={()=>this.setTitleAndShare('好友助力')}></Route>
-				<Route path='/FriendsHelpShare' getComponent={FriendsHelpShare} onEnter={()=>this.setTitleAndShare('好友助力')}></Route>
+				<Route path='/FriendsHelpShare/:token' getComponent={FriendsHelpShare} onEnter={()=>this.setTitleAndShare('好友助力')}></Route>
+				<Route path='/ZhuLiRank' getComponent={ZhuLiRank} onEnter={()=>this.setTitleAndShare('助力排行榜')}></Route>
+				<Route path='/GuanZhuPage' getComponent={GuanZhuPage} onEnter={()=>this.setTitleAndShare('关注上儿')}></Route>
+				<Route path='/ExchangeRecord' getComponent={ExchangeRecord} onEnter={()=>this.setTitleAndShare('兑换记录')}></Route>
+				<Route path='/MallDetail/:id(/:record)' getComponent={MallDetail} onEnter={()=>this.setTitleAndShare('商品详情')}></Route>
+				<Route path='/DuiHuanPage/:id' getComponent={DuiHuanPage} onEnter={()=>this.setTitleAndShare('兑换成功')}></Route>
+				
+				<Route path='/Login' getComponent={Login} onEnter={()=>this.setTitleAndShare('用户登录')}></Route>
+				<Route path='/Forget' getComponent={Forget} onEnter={()=>this.setTitleAndShare('忘记密码')}></Route>
+				<Route path='/Signup' getComponent={Signup} onEnter={()=>this.setTitleAndShare('用户注册')}></Route>
+				<Route path='/SignupNext' getComponent={SignupNext} onEnter={()=>this.setTitleAndShare('完善资料')}></Route>
+
 			</Router>
 		)
 	}

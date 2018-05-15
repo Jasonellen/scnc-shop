@@ -5,7 +5,6 @@ let initialState = {
 }
 const cart = handleActions({
 	changeSelect: (state, action) => {
-		location.hash = '';
 		return {
 			...state,
 			selectedTab: action.payload

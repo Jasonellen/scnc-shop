@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './index.scss';
 import {WhiteSpace, Flex, List,Badge} from 'antd-mobile';
 import {Link, browserHistory} from 'react-router'
-import {connect} from 'react-redux';
 import ReactIScroll  from 'react-iscroll'
 //图片
 import dengdaifukuan from 'static/daifukuan.svg'
@@ -11,61 +10,27 @@ import dengdaishouhuo from 'static/dengdaishouhuo.pic'
 import dengdaipingjia from 'static/dengdaipingjia.png'
 import shouhou from 'static/tuikuan.svg'
 import shouhuodizhi from 'static/shouhuodizhi.png'
-// import tuijiandingdan from 'static/tuijiandingdan.png'
-import wodeerweima from 'static/wodeerweima.png'
+import tuijiandingdan from 'static/tuijiandingdan.png'
 import wodekehu from 'static/wodekehu.png'
 import Integral from 'static/Integral.png'
-
+import wodeerweima from 'static/wodeerweima.png'
+import edit from 'static/edit.svg'
 import putonghuiyuan from 'static/putonghuiyuan.png'
 import yinpaihuiyuan from 'static/yinpaihuiyuan.png'
 import jingpaihuiyuan from 'static/jingpaihuiyuan.png'
 import zuanshihuiyuan from 'static/zuanshihuiyuan.png'
+import {connect} from 'react-redux';
+import * as otherAction from '@/actions/other';
+import { bindActionCreators } from 'redux'
 
 @connect(
-	state => {
-		return {
-			user:state.other.user
-		}
-	}
+	null,
+	dispatch => bindActionCreators(otherAction, dispatch)
 )
 export default class MineRepresent extends Component {
-	constructor(props){
-		super(props)
-		this.state={}
-	}
-	componentDidMount() {
-		//获取我的订单
-		_fetch(url.myOrder,{order_status:1})
-			.then(data=>{
-				let pendingData = data.orders.filter(function(item){
-					return item.aasm_state == 'pending'
-				})
-				let paidData = data.orders.filter(function(item){
-					return item.aasm_state == 'paid'
-				})
-				let shippingData = data.orders.filter(function(item){
-					return item.aasm_state == 'shipping'
-				})
-				let completedData = data.orders.filter(function(item){
-					return item.aasm_state == 'completed'
-				})
-				this.setState({
-					pendingCount:pendingData.length,
-					paidCount:paidData.length,
-					shippingCount:shippingData.length,
-					completedCount:completedData.length,
-				})
-			})
-	}
-	componentWillUnmount(){
-		//重写组件的setState方法，直接返回空
-		this.setState = ()=>{
-			return;
-		};
-	}
+
 	render() {
-		const {user} = this.props
-		const { pendingCount,paidCount,shippingCount,completedCount } = this.state
+		const { pendingCount,paidCount,shippingCount,completedCount,user,unread_message,unread_message_order } = this.props
 		let img=''
 		switch(user.level){
 		case 1:
@@ -90,7 +55,7 @@ export default class MineRepresent extends Component {
 							<div className="head">
 								<img src={user.headimageurl || "/static/morentouxiang.png"} alt="" className='head_pic'/>
 								<img src={img} alt="" className='badge'/>
-								<p>{user.name}</p>
+								<p onClick={()=>this.props.renameModal({modal:true})}>{user.nick_name || user.name} <img src={edit} alt=""/></p>
 							</div>
 							{
 								user && user.mobile
@@ -164,18 +129,41 @@ export default class MineRepresent extends Component {
 						<List className="other_list">
 							<List.Item
 								thumb={wodekehu}
-								onClick={() => {}}
 								arrow='horizontal'
-							>我的客户</List.Item>
+								extra={!!unread_message && <small style={{color:'#588fff'}}>{unread_message + '条新消息'}</small>}
+							>
+								{
+									user.user_type == 3
+									?	'我的经销商/营养师'
+									: user.user_type == 4
+										? '我的经理/营养顾问'
+										: user.user_type == 5
+											? '我的经销商'
+											: ''
+								}
+							</List.Item>
 						</List>
 					</Link>
-					<Link to='/MyQRCode'>
+					{
+						!!user.show_code && (
+							<Link to='/MyQRCode'>
+								<List className="other_list">
+									<List.Item
+										thumb={wodeerweima}
+										arrow='horizontal'
+									>我的二维码</List.Item>
+								</List>
+							</Link>
+						)
+					}
+					
+					<Link to='/RecommendOrderRepresent'>
 						<List className="other_list">
 							<List.Item
-								thumb={wodeerweima}
-								onClick={() => {}}
+								thumb={tuijiandingdan}
 								arrow='horizontal'
-							>我的二维码</List.Item>
+								extra={!!unread_message_order && <small style={{color:'#588fff'}}>{unread_message_order + '条新订单'}</small>}
+							>推荐订单</List.Item>
 						</List>
 					</Link>
 					<List className="other_list" style={{border:'none'}}>

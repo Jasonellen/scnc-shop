@@ -42,10 +42,12 @@ export default class DataSelector extends Component {
 					<List.Item arrow="horizontal">{content}</List.Item>
 				</DatePicker>
 				{
-					content != text && <div
-						className="float"
-						onClick={this.handleSeeAll}>查看全部
-					</div>
+					content !== text
+					? <div
+							className="float"
+							onClick={this.handleSeeAll}>全部日期
+						</div>
+					: <div></div>
 				}
 			</div>
 		);

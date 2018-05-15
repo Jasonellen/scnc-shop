@@ -1,0 +1,22 @@
+.GuanZhuPage{
+	width: 100%;
+	height: 100%;
+	background: url(/static/guanzhuBg.png)  center no-repeat;
+	background-size: cover;
+	img{
+		position: absolute;
+    top: 440px;
+    width: 370px;
+    left: 176px;
+    border-radius: 10px;
+	}
+	p{
+    position: absolute;
+    top: 941px;
+    text-align: center;
+    font-size: 30px;
+    color: beige;
+    margin: 0 32%;
+    box-sizing: border-box;
+	}
+}

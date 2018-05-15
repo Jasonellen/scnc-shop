@@ -43,6 +43,7 @@ const addAddress = handleActions({
 		proLabel:'请选择',
 		cityLabel:'',
 		areaLabel:'',
+		id:''
 	}),
 	edit: (state, action) => ({
 		...state,

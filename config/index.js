@@ -12,7 +12,7 @@ module.exports = {
 		fontPath: 'font',
 		cssSourceMap: true,
 		extract: true,
-		bundleAnalyzerReport: false // 文件分布浏览器中可视化显示
+		bundleAnalyzerReport: false 
 	},
 	dev: {
 		port: 8081,

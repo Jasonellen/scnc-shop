@@ -12,9 +12,13 @@ import see from 'static/see.svg'
 import nosee from 'static/nosee.svg'
 
 class ManageAccount extends Component {
+	state={
+		password:'',
+		newpassword:'',
+	}
 	handleSubmit=()=>{
-		const {password1, password2} =this.props.state
-		_fetch(url.modify_password,{password:password1, newpassword:password2}, 'POST')
+		const {newpassword, password} =this.state
+		_fetch(url.change_password,{password, newpassword}, 'FORM')
 			.then(data=>{
 				if(data.success){
 					Alert('', '密码修改成功', [
@@ -29,7 +33,8 @@ class ManageAccount extends Component {
 			})
 	}
 	render() {
-		const {passwordDisabled, see1, see2} = this.props.state
+		const {see1, see2} = this.props.state
+		const {newpassword, password} =this.state
 		return (
 			<div className="manageAccount">
 			<WhiteSpace/>
@@ -37,21 +42,21 @@ class ManageAccount extends Component {
 					<InputItem
 						placeholder="请输入原密码"
 						type={see1 ? '' : 'password'}
-						onChange={this.props.handlePassword}
+						onChange={(password)=>this.setState({password})}
 						extra={<img src={see1 ? see : nosee} alt="" onClick={()=>this.props.changeData({see1:!see1})} />}
 					>原密码</InputItem>
 					<WhiteSpace/>
 					<InputItem
 						placeholder="请输入新密码"
 						type={see2 ? '' : 'password'}
-						onChange={this.props.handlePassword2}
+						onChange={(newpassword)=>this.setState({newpassword})}
 						extra={<img src={see2 ? see : nosee} alt="" onClick={()=>this.props.changeData({see2:!see2})} />}
 					>新密码</InputItem>
 					<div>
 						<WingBlank size="lg">
 							<Button
-								className={`btn ${!passwordDisabled && 'active'}`}
-								disabled={passwordDisabled}
+								className={`btn ${password && newpassword && 'active'}`}
+								disabled={!password || !newpassword}
 								onClick={this.handleSubmit }
 							>提交</Button>
 						</WingBlank>

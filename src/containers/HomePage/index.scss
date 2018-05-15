@@ -10,9 +10,8 @@
 		width: 100%;
 		height: 88px;
 		position: fixed;
-		z-index: 998;
+		z-index: 993;
 		background: #6a9afe;
-		opacity: 0;
 		//背景图
 		// background:url('/static/pulldown.png');
 		// background-size: cover;
@@ -30,7 +29,7 @@
 		opacity: .7;
 		border-radius: 10px;
 		position: fixed;
-		z-index: 999;
+		z-index: 994;
 		left: 50px;
 		top: 14px;
 		padding-left: 40px;
@@ -50,7 +49,7 @@
 	}
 	.box{
 		padding-bottom: 100px;
-
+		padding-top: 88px;
 		.carousel{
 			.slider-list{
 				height: 352px !important;

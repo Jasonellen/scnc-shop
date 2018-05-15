@@ -6,7 +6,6 @@ import './index.scss'
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as shippingAction from '@/actions/shipping.js';
-import UpPull from '@/components/UpPull'
 import DFK from './DFK'
 import DFH from './DFH'
 import DSH from './DSH'
@@ -32,94 +31,68 @@ export default  class MyOrder extends Component {
 			paidData:[],//待发货
 			shippingData:[],//待收获
 			completedData:[],//待评价
-			isLoading: false,
-			hasMore:true,
-			page:0,
+			page:1,
 		}
 	}
 
 	componentDidMount(){
-		const {index} = this.state
-		setTimeout(()=>{
-			if(index == 1){
-				this.scroll = new IScroll('.warp1',{
-					probeType: 2
-				})
-				this.setState({
-					iscroll:this.scroll
-				})
-			}
-
-		},500)
 		//获取我的订单
-		_fetch(url.myOrder,{order_status:1})
+		this.getData('pending')
+		this.getData('paid')
+		this.getData('shipping')
+		this.getData('completed')
+		this.getAllData()
+	}
+	//获取全部订单
+	getData = (status)=>{
+		_fetch(url.myOrder,{status})
 			.then(data=>{
-				let pendingData = data.orders.filter(function(item){
-					return item.aasm_state == 'pending'
-				})
-				let paidData = data.orders.filter(function(item){
-					return item.aasm_state == 'paid'
-				})
-				let shippingData = data.orders.filter(function(item){
-					return item.aasm_state == 'shipping'
-				})
-				let completedData = data.orders.filter(function(item){
-					return item.aasm_state == 'completed'
-				})
-
-				this.setState({
-					data:data.orders,
-					pendingData,
-					paidData,
-					shippingData,
-					completedData,
-				},()=>this.handleLoading())
+				if(status === 'pending'){
+					this.setState({pendingData:data.orders})
+				}
+				if(status === 'paid'){
+					this.setState({paidData:data.orders})
+				}
+				if(status === 'shipping'){
+					this.setState({shippingData:data.orders})
+				}
+				if(status === 'completed'){
+					this.setState({completedData:data.orders})
+				}
 			})
-
 	}
-
-	handleLoading = () => {
-		const {hasMore, page, data} = this.state
-		if (!hasMore) {
-			return;
+	getAllData = ()=>{
+		_fetch(url.myOrder,{page:1,status:'all'})
+			.then(data=>{
+				if(data.orders.length>0){
+					this.setState({data: data.orders});
+				}
+			})
+	}
+	//下拉加载
+	handleLoading = (iscroll) => {
+		if(!iscroll.maxScrollY) return;
+		if(!this.fetching && (iscroll.y <= iscroll.maxScrollY )){
+			if(this.noMore){
+				Toast.info('没有更多数据了！',1);
+				return
+			}
+			const { page, data} = this.state
+			this.fetching = true
+			this.setState({page:page+1}, ()=>{
+				_fetch(url.myOrder,{page:this.state.page,status:'all'})
+					.then(res=>{
+						if(res.orders.length>0){
+							this.fetching = false
+							this.setState({data: data.concat(res.orders)});
+						}else{
+							this.fetching = false
+							this.noMore = true
+							Toast.info('没有更多数据了！',1);
+						}
+					})
+			})
 		}
-		this.setState({isLoading: true, page:page+1}, ()=>{
-			_fetch(url.myOrder,{page:this.state.page,order_status:0})
-				.then(res=>{
-					if(res.orders.length>0){
-						this.setState({
-							data: data.concat(res.orders),
-							isLoading: false,
-						});
-					}else{
-						this.setState({hasMore:false, isLoading:false})
-					}
-				})
-		})
-	}
-
-	componentDidUpdate(){
-		setTimeout(()=>{
-			this.scroll&&this.scroll.refresh()
-		},0)
-
-	}
-	componentWillUnmount(){
-		this.scroll = null
-	}
-
-	handleTabChange = (i)=>{
-		if(i == 1){
-			setTimeout(()=>{
-				this.scroll = new IScroll(`.warp1`,{
-					probeType: 2
-				})
-				this.setState({
-					iscroll:this.scroll
-				})
-			},0)
-		}
-
 	}
 
 	//取消订单
@@ -133,7 +106,7 @@ export default  class MyOrder extends Component {
 						.then(data=>{
 							if(data.success){
 								Toast.info('订单取消成功',1)
-								location.reload()
+								this.getAllData()
 							}else{
 								Toast.info('取消失败，请稍后再试',1)
 							}
@@ -215,7 +188,7 @@ export default  class MyOrder extends Component {
 		const {
 			data,pendingData,paidData,
 			shippingData,completedData,
-			isLoading,hasMore,iscroll,index
+			index
 		} = this.state
 
 		return (
@@ -226,7 +199,12 @@ export default  class MyOrder extends Component {
 					onTabClick = {this.handleTabChange}
 				>
 					<Tabs.TabPane tab="全部" key='1'>
-						<div className="warp warp1">
+						<div className="warp">
+							<ReactIScroll 
+								iScroll={IScroll} 
+								options={{probeType: 3}}
+								onScroll = {this.handleLoading}
+							>
 							<div>
 								{
 									data.length>0
@@ -269,16 +247,11 @@ export default  class MyOrder extends Component {
 													);
 												})
 											}
-											<UpPull
-												iscroll = { iscroll }
-												hasMore ={hasMore}
-												isLoading = {isLoading}
-												onLoading = {this.handleLoading}
-											/>
 										</div>
 									: <Blank />
 								}
 							</div>
+							</ReactIScroll>
 						</div>
 					</Tabs.TabPane>
 					<Tabs.TabPane tab="待付款" key="2">
