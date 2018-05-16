@@ -64,23 +64,6 @@ if(location.href.indexOf('from') !== -1){
 	location.href = location.origin + location.pathname
 }
 
-//微信中更新token信息
-var ua = window.navigator.userAgent.toLowerCase();
-if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-	fetchJsonp(url.binding)
-		.then((response)=>{
-			return response.json()
-		})
-		.then((data)=>{
-			console.log(data,'successjsonp')
-			let oldToken = localStorage.getItem('s_token_old')
-			if(oldToken && (oldToken !== data.token)){
-				localStorage.setItem('s_token',data.token)
-				location.reload()
-			}
-		})
-}
-
 //扩展对象
 if (typeof Object.assign != 'function') {
 	Object.assign = function(target) {
