@@ -64,6 +64,22 @@ if(location.href.indexOf('from') !== -1){
 	location.href = location.origin + location.pathname
 }
 
+var ua = window.navigator.userAgent.toLowerCase();  //切换手机
+if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	fetchJsonp(url.binding)
+		.then((response)=>{
+			return response.json()
+		})
+		.then((data)=>{
+			console.log(data,'successjsonp')
+			let oldToken = localStorage.getItem('s_token_old')
+			let nowToken = localStorage.getItem('s_token')
+			if((oldToken !== data.token) && (nowToken !== data.token)){
+				localStorage.setItem('s_token',data.token)
+				location.reload()
+			}
+		})
+}
 //扩展对象
 if (typeof Object.assign != 'function') {
 	Object.assign = function(target) {
