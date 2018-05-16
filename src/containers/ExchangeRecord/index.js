@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SwipeAction, Toast} from 'antd-mobile'
+// import {SwipeAction, Toast} from 'antd-mobile'
 import './index.scss';
 import {Link} from 'react-router'
 import ReactIScroll  from 'react-iscroll'
@@ -14,7 +14,7 @@ export default class ExchangeRecord extends Component {
 	}
 	componentDidMount(){
 		//获取列表数据
-		_fetch(url.collections)
+		_fetch(url.users_exchange_logs)
 			.then(data=>{
 				this.setState({data})
 			})
@@ -34,12 +34,12 @@ export default class ExchangeRecord extends Component {
 										this.state.data.map((item,i)=>{
 											return(
 												<li key={i}>
-													<Link to={`/GoodsDetail/${item.id}`}>
+													<Link to={`/MallDetail/${item.good_id}/${item.exchange_id}`}>
 														<div className='clearfix left'>
 															<span className='pull-left _left'>
-																<img src={item.image_url} alt="" className='pull-left'/>
+																<img src={item.cover} alt="" className='pull-left'/>
 																<div className="pull-right clearfix">
-																		<p>{item.name}</p>
+																		<p>{item.good_name}</p>
 																		<span>成功</span>
 																</div>
 															</span>

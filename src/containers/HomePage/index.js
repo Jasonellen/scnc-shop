@@ -93,7 +93,7 @@ export default class Index extends Component {
 								<div className="pull-left right clearfix">
 
 									<div className='clearfix first'>
-										<Link to='/IntegralMall'>
+										<Link to='/IntegralMall'>{/*IntegralMall*/}
 											<div className="pull-left">
 												<img src={jifenshangcheng} alt=""/>
 											</div>

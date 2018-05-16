@@ -64,9 +64,7 @@ export default  class MyOrder extends Component {
 	getAllData = ()=>{
 		_fetch(url.myOrder,{page:1,status:'all'})
 			.then(data=>{
-				if(data.orders.length>0){
-					this.setState({data: data.orders});
-				}
+				this.setState({data: data.orders})
 			})
 	}
 	//下拉加载
@@ -107,6 +105,7 @@ export default  class MyOrder extends Component {
 							if(data.success){
 								Toast.info('订单取消成功',1)
 								this.getAllData()
+								this.getData('pending')
 							}else{
 								Toast.info('取消失败，请稍后再试',1)
 							}
@@ -206,6 +205,7 @@ export default  class MyOrder extends Component {
 								onScroll = {this.handleLoading}
 							>
 							<div>
+							{console.log(data,data.length,123)}
 								{
 									data.length>0
 									?	<div>
@@ -216,6 +216,7 @@ export default  class MyOrder extends Component {
 														{
 															item.aasm_state == 'pending' && <DFK
 																data = {item}
+																key={item.created_at}
 																onClick={(order_no)=>this.handleCancel(order_no)}
 															/>
 														}

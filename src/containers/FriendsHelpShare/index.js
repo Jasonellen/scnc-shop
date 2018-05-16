@@ -77,6 +77,14 @@ export default class FriendsHelpShare extends Component {
 			})
 		
 	}
+	handleOut = ()=>{
+		const { is_follow } = this.props.state
+		if(is_follow){
+			browserHistory.push('/IntegralMall')
+		}else{
+			browserHistory.push('/guanzhupage')
+		}
+	}
 	render() {
 		const { list, base, point } =this.state
 		return (
@@ -114,7 +122,7 @@ export default class FriendsHelpShare extends Component {
 					</ReactIScroll>
 				</div>
 				<div className="footer">
-					<div>我要赚积分</div>
+					<div onClick={this.handleOut}>我要赚积分</div>
 				</div>
 			</div>
 		);

@@ -86,7 +86,7 @@ export default class IntegralMall extends Component {
 								<div className="pull-left first">
 									<img src={record} alt=''/><span>{point}</span><i>积分</i>
 								</div>
-								<div className="pull-right">
+								<div className="pull-right" onClick={()=>browserHistory.push('/ExchangeRecord')}>
 									<img src={recordofconversion} alt=""/><i>兑换记录</i>
 								</div>
 							</div>
@@ -100,7 +100,7 @@ export default class IntegralMall extends Component {
 							</div>
 							<ul className="body clearfix">
 								{
-									data.map(function (item, index) {
+									data.map(function (item) {
 										return <li className='pull-left' key={item.id}>
 											<Link to={`/MallDetail/${item.id}`}>
 												<img src={item.cover} alt=""/>

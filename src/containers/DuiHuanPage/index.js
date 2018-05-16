@@ -1,32 +1,43 @@
 import React, {Component} from 'react';
-import {SwipeAction, Toast, List, Modal} from 'antd-mobile'
 import './index.scss';
-import { Link, browserHistory } from 'react-router'
+import { Link } from 'react-router'
 import ReactIScroll  from 'react-iscroll'
-import Blank from '@/components/Blank'
 import Address from '@/components/Address'
 import successsvg from 'static/walletPaySuccess.svg'
 
 export default class DuiHuanPage extends Component {
 	state={
-		data:''
+		data:'',
+		detail_data:{}
 	}
 	componentDidMount(){
+		this.getDetailData()
+		this.getAddress()
+	}
+
+	getDetailData = ()=>{
+		_fetch(url.exchange_goods_detail,{id:this.props.params.id})
+			.then(data=>{
+				this.setState({
+					detail_data:data
+				})
+			})
+	}
+	getAddress = ()=>{
 		_fetch(url.addresses)
 			.then(data=>{
 				let _data;
 				if(data.addresses.length>0){
-					_data = data.addresses.filter(function(item){
+					_data = data.addresses.find(function(item){
 						return item.status == 1
 					})
-					this.setState({data:_data[0]})
+					this.setState({data:_data})
 				}
-
 			})
 	}
 
 	render() {
-		const { data } = this.state
+		const { data, detail_data } = this.state
 		return (
 			<div className="DuiHuanPage">
 				<div className="wrap">
@@ -40,10 +51,10 @@ export default class DuiHuanPage extends Component {
 							<div className="goods">
 								<div className='clearfix left'>
 									<span className='pull-left'>
-										<img src='http://img0.imgtn.bdimg.com/it/u=2730689356,2513750244&fm=27&gp=0.jpg' alt="" className='pull-left'/>
+										<img src={detail_data.cover} alt="" className='pull-left'/>
 										<div className="pull-right clearfix">
-												<p>维生素D钙粉(1~4岁）</p>
-												<span>3600积分</span>
+												<p>{detail_data.good_name}</p>
+												<span>{detail_data.points}积分</span>
 										</div>
 									</span>
 								</div>
@@ -56,18 +67,18 @@ export default class DuiHuanPage extends Component {
 								<ul className="content">
 									<li>
 										<div>商品简介：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.goods_detail}</p>
 									</li>
 									<li>
 										<div>兑换流程：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.exchange_process}</p>
 									</li>
 									<li>
 										<div>注意事项：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.exchange_comment}</p>
 									</li>
 								</ul>
-								<div className="code">订单编号：123718927389791273</div>
+								<div className="code">订单编号：{this.props.params.order}</div>
 							</div>
 						</div>
 					</ReactIScroll>

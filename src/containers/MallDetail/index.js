@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {SwipeAction, Toast, List, Modal} from 'antd-mobile'
+import { List, Modal} from 'antd-mobile'
 import './index.scss';
 import { Link, browserHistory } from 'react-router'
 import ReactIScroll  from 'react-iscroll'
 import {connect} from 'react-redux';
-import Blank from '@/components/Blank'
 import Address from '@/components/Address'
 
 @connect(
@@ -17,70 +16,100 @@ import Address from '@/components/Address'
 )
 export default class MallDetail extends Component {
 	state={
-		data:''
+		data:'',
+		detail_data:{}
 	}
 	componentDidMount(){
+		this.getAddress()
+		this.getDetailData()
+	}
+	getDetailData = ()=>{
+		_fetch(url.exchange_goods_detail,{id:this.props.params.id})
+			.then(data=>{
+				this.setState({
+					detail_data:data
+				})
+			})
+	}
+	getAddress = ()=>{
 		_fetch(url.addresses)
 			.then(data=>{
 				let _data;
 				if(data.addresses.length>0){
-					_data = data.addresses.filter(function(item){
+					_data = data.addresses.find(function(item){
 						return item.status == 1
 					})
-					this.setState({data:_data[0]})
+					this.setState({data:_data})
 				}
-
 			})
 	}
-
 	handleSubmit = ()=>{
-		Modal.alert('','添加收货地址后才能添加该商品哦~！', [
-			{ text: '取消', onPress: () => console.log('cancel') },
-			{
-				text: '现在填写',
-				onPress: () => {
-					browserHistory.push('/addAddress')
+		const { data, detail_data } = this.state
+		if(!data){
+			Modal.alert('','添加收货地址后才能添加该商品哦~！', [
+				{ text: '取消', onPress: () => console.log('cancel') },
+				{
+					text: '现在填写',
+					onPress: () => {
+						browserHistory.push('/addAddress')
+					},
 				},
-			},
-		],'ios')
-
-		// Modal.alert('','确定使用3600积分兑换？', [
-		// 	{ text: '取消', onPress: () => console.log('cancel') },
-		// 	{
-		// 		text: '确定',
-		// 		onPress: () => {
-		// 			browserHistory.push('/duihuanpage')
-		// 		},
-		// 	},
-		// ],'ios')
+			],'ios')
+		}else{
+			Modal.alert('',`确定使用${detail_data.points}积分兑换？`, [
+				{ text: '取消', onPress: () => console.log('cancel') },
+				{
+					text: '确定',
+					onPress: () => {
+						_fetch(url.users_exchange_point,{
+							good_id:this.props.params.id,
+							address_id:data.id
+						},'FORM')
+							.then(data=>{
+								if(data.success){
+									browserHistory.push(`/duihuanpage/${this.props.params.id}/${data.exchange_id}`)
+								}
+							})
+						
+					},
+				},
+			],'ios')
+		}
 	}
 
 	render() {
-		const { data } = this.state
+		const { data, detail_data } = this.state
 		const { point } = this.props.state
+		const { record } = this.props.params
 		return (
 			<div className="MallDetail">
 				<div className="wrap">
 					<ReactIScroll iScroll={IScroll}>
 						<div>
 							<div className="banner">
-								<img src="http://img5.imgtn.bdimg.com/it/u=1593267945,1462874642&fm=27&gp=0.jpg" alt=""/>
+								<img src={detail_data.detail_pic} alt=""/>
 							</div>
 							<div className="goods">
-								<h1>维生素D钙粉(1~4岁)</h1>
+								<h1>{detail_data.good_name}</h1>
 								<div className='p clearfix'>
-									<div className="pull-left">3600<span>积分</span><i>&yen;2900</i></div>
+									<div className="pull-left">{detail_data.points}<span>积分</span><i>&yen;{	parseInt(detail_data.points * 1.2)}</i></div>
 									<div className="pull-right">运费：包邮</div>
 								</div>
 							</div>
 							{
 								data
 								?
-									<Address
-										arrow="horizontal"
-										data={data}
-										click={()=>browserHistory.push('/ManageAddressCanBack')}
-									/>
+									record
+									?
+										<Address
+											data={data}
+										/>
+									:
+										<Address
+											arrow="horizontal"
+											data={data}
+											click={()=>browserHistory.push('/ManageAddressCanBack')}
+										/>
 								:
 									<Link onClick={()=>browserHistory.push('/addAddress')}>
 										<List.Item arrow="horizontal"><span className='no_address'>您还未填写收货地址，马上填写</span></List.Item>
@@ -91,23 +120,37 @@ export default class MallDetail extends Component {
 								<ul className="content">
 									<li>
 										<div>商品简介：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.goods_detail}</p>
 									</li>
 									<li>
 										<div>兑换流程：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.exchange_process}</p>
 									</li>
 									<li>
 										<div>注意事项：</div>
-										<p>啊飒飒大师局领导看就按了的按实际偶家鸡鸡都琵琶是都安静奇偶埃及活动哈搜索到啊是大家搜到阿萨的</p>
+										<p>{detail_data.exchange_comment}</p>
 									</li>
 								</ul>
-								<div className="code">订单编号：123718927389791273</div>
+								{ record && <div className="code">订单编号：{record}</div> }
 							</div>
 						</div>
 					</ReactIScroll>
 					<div className="footer">
-						<div onClick={this.handleSubmit}>立即兑换</div>
+					{
+						record
+						?
+							<div onClick={this.handleSubmit}>返回积分商城</div>
+						: 
+							<div>
+								{
+									point >= detail_data.points
+									?
+										<div onClick={()=>browserHistory.push('/IntegralMall')}>立即兑换</div>
+									:
+										<div style={{background:'grey'}}>积分不足</div>
+								}
+							</div>
+					}
 					</div>
 				</div>
 			</div>
